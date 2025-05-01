@@ -1,5 +1,5 @@
-import 'package:collectors/view/common/pages/general.dart';
 import 'package:collectors/view/home/home.dart';
+import 'package:collectors/view/scan/scanner.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           case '/home':
             return _createRoute(const HomePage(), settings);
           case '/scan':
-            return _createRoute(const HomePage(), settings);
+            return _createRoute(const Scanner(), settings);
           case '/history':
             return _createRoute(const HomePage(), settings);
           default:
@@ -39,10 +39,7 @@ PageRouteBuilder _createRoute(Widget page, RouteSettings settings) {
     pageBuilder: (context, animation, secondaryAnimation) => page,
     settings: settings,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
+      return FadeTransition(opacity: animation, child: child);
     },
   );
 }

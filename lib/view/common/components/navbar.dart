@@ -18,14 +18,17 @@ class CustomBottomNavbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           BottomNavbarItem(
-              icon: PhosphorIcons.houseSimple(currentRoute == '/home'
+            icon: PhosphorIcons.houseSimple(
+              currentRoute == '/home'
                   ? PhosphorIconsStyle.fill
-                  : PhosphorIconsStyle.regular),
-              callback: () {
-                if (currentRoute != '/home') {
-                  Navigator.pushReplacementNamed(context, '/home');
-                }
-              }).toIconButton(),
+                  : PhosphorIconsStyle.regular,
+            ),
+            callback: () {
+              if (currentRoute != '/home') {
+                Navigator.pushReplacementNamed(context, '/home');
+              }
+            },
+          ).toIconButton(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 40),
             decoration: BoxDecoration(
@@ -33,26 +36,33 @@ class CustomBottomNavbar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             padding: EdgeInsets.all(12),
-            child: BottomNavbarItem(
-                icon: PhosphorIcons.scan(currentRoute == '/scan'
-                    ? PhosphorIconsStyle.fill
-                    : PhosphorIconsStyle.regular),
-                color: Colors.white,
-                callback: () {
-                  if (currentRoute != '/scan') {
-                    Navigator.pushReplacementNamed(context, '/scan');
-                  }
-                }).toIconButton(),
+            child:
+                BottomNavbarItem(
+                  icon: PhosphorIcons.scan(
+                    currentRoute == '/scan'
+                        ? PhosphorIconsStyle.fill
+                        : PhosphorIconsStyle.regular,
+                  ),
+                  color: Colors.white,
+                  callback: () {
+                    if (currentRoute != '/scan') {
+                      Navigator.pushReplacementNamed(context, '/scan');
+                    }
+                  },
+                ).toIconButton(),
           ),
           BottomNavbarItem(
-              icon: PhosphorIcons.clockCountdown(currentRoute == '/history'
+            icon: PhosphorIcons.clockCountdown(
+              currentRoute == '/history'
                   ? PhosphorIconsStyle.fill
-                  : PhosphorIconsStyle.regular),
-              callback: () {
-                if (currentRoute != '/history') {
-                  Navigator.pushReplacementNamed(context, '/history');
-                }
-              }).toIconButton(),
+                  : PhosphorIconsStyle.regular,
+            ),
+            callback: () {
+              if (currentRoute != '/history') {
+                Navigator.pushReplacementNamed(context, '/history');
+              }
+            },
+          ).toIconButton(),
         ],
       ),
     );
@@ -60,8 +70,11 @@ class CustomBottomNavbar extends StatelessWidget {
 }
 
 class BottomNavbarItem {
-  const BottomNavbarItem(
-      {required this.icon, required this.callback, this.color = Colors.black});
+  const BottomNavbarItem({
+    required this.icon,
+    required this.callback,
+    this.color = Colors.black,
+  });
 
   final Color color;
   final PhosphorIconData icon;
@@ -69,11 +82,7 @@ class BottomNavbarItem {
 
   Widget toIconButton() {
     return IconButton(
-      icon: PhosphorIcon(
-        icon,
-        size: 30,
-        color: color,
-      ),
+      icon: PhosphorIcon(icon, size: 30, color: color),
       onPressed: callback,
     );
   }
