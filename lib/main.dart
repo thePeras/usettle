@@ -1,8 +1,12 @@
+import 'package:collectors/models/Receipt.dart';
+import 'package:collectors/view/assignment/assignment.dart';
 import 'package:collectors/view/home/home.dart';
 import 'package:collectors/view/scan/scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  initializeDateFormatting();
   runApp(const MyApp());
 }
 
@@ -25,7 +29,12 @@ class MyApp extends StatelessWidget {
           case '/scan':
             return _createRoute(const Scanner(), settings);
           case '/history':
-            return _createRoute(const HomePage(), settings);
+            return _createRoute(
+                AssignmentPage(
+                    receipt:
+                        Receipt(total: 83.72, date: DateTime.now(), items: []),
+                    participants: []),
+                settings);
           default:
             return null;
         }
