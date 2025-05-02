@@ -1,8 +1,7 @@
+import 'package:usettle/view/common/components/modal/account_header.dart';
+import 'package:usettle/view/common/components/modal/footer.dart';
+import 'package:usettle/view/common/components/modal/item_list.dart';
 import 'package:flutter/material.dart';
-
-import 'modal/account_header.dart';
-import 'modal/footer.dart';
-import 'modal/item_list.dart';
 
 class CustomDialog extends StatefulWidget {
   late final List<ItemListEntry> itemList;
