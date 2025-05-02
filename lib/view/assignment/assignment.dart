@@ -64,7 +64,9 @@ class AssignmentState extends State<AssignmentPage> {
           Divider(),
           _buildParticipantsCarousel(),
           Divider(),
-          _buildItemsList()
+          Expanded(
+            child: _buildItemsList(),
+          )
         ],
       ),
     );
@@ -82,10 +84,11 @@ class AssignmentState extends State<AssignmentPage> {
       counts[item.name] = (counts[item.name] ?? 0) + 1;
     }
 
-    return Column(
-        children: uniqueItems
-            .map((item) => _buildItemCard((item, counts[item.name]!)))
-            .toList());
+    return SingleChildScrollView(
+        child: Column(
+            children: uniqueItems
+                .map((item) => _buildItemCard((item, counts[item.name]!)))
+                .toList()));
   }
 
   Widget _buildItemCard((Item, int) repeatedItem) {
@@ -120,17 +123,40 @@ class AssignmentState extends State<AssignmentPage> {
                   children: [
                     SizedBox(
                       height: 25,
-                      width: 40,
+                      width: 14 * (quantity > 3 ? 4 : quantity).toDouble() + 8,
                       child: Stack(
                         children: [
-                          ...List.generate(quantity, (index) {
+                          ...List.generate(quantity > 3 ? 3 : quantity,
+                              (index) {
                             return Positioned(
                                 left: index * 14.0,
                                 child: PhosphorIcon(
-                                    size: 28,
+                                    color: Colors.grey[500],
+                                    size: 25,
                                     PhosphorIcons.circleDashed(
                                         PhosphorIconsStyle.duotone)));
                           }),
+                          if (quantity > 3)
+                            Positioned(
+                              left: 14 * 3.0,
+                              top: 1,
+                              child: Container(
+                                height: 21.5,
+                                width: 21.5,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '+${quantity - 3}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -175,9 +201,21 @@ class AssignmentState extends State<AssignmentPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              item.name,
-                              style: TextStyle(fontSize: 18),
+                            Row(
+                              children: [
+                                PhosphorIcon(
+                                    color: Colors.grey[500],
+                                    size: 25,
+                                    PhosphorIcons.circleDashed(
+                                        PhosphorIconsStyle.duotone)),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    item.name,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                )
+                              ],
                             ),
                             SizedBox(
                               width: 100,
