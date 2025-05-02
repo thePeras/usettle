@@ -1,5 +1,6 @@
 import 'package:collectors/view/history/invoices_history.dart';
 import 'package:collectors/view/home/home.dart';
+import 'package:collectors/view/invoice_confirm/confirmation_page.dart';
 import 'package:collectors/view/scan/scanner.dart';
 import 'package:collectors/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         //fontFamily: 'Monteserrat' TODO: change to the correct name
       ),
       home: HomePage(),
-      initialRoute: '/history',
+      initialRoute: '/home',
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/home':
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
             return _createRoute(InvoicesHistoryPage(), settings);
           case '/contacts':
             return _createRoute(ContactsSelectionPage(), settings);
+          case '/confirmation':
+            return _createRoute(const ConfirmationPage(), settings);
           default:
             return null;
         }
