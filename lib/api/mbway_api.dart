@@ -5,7 +5,9 @@ class MbwayApi {
   final String mbwayKey;
   late String requestId = "";
 
-  MbwayApi({required this.mbwayKey});
+  MbwayApi({
+    required this.mbwayKey,
+  });
 
   Future<Map<String, dynamic>> createMbWayPayment({
     required String phoneNumber,
@@ -37,11 +39,11 @@ class MbwayApi {
   }
 
   Future<Map<String, dynamic>> checkPaymentStatus() async {
-    final Uri uri = Uri.parse(
-      "https://api.ifthenpay.com/spg/payment/mbway/status?mbWayKey=$mbwayKey&requestId=$requestId",
-    );
+    final Uri uri = Uri.parse("https://api.ifthenpay.com/spg/payment/mbway/status?mbWayKey=$mbwayKey&requestId=$requestId");
 
-    final response = await http.get(uri);
+    final response = await http.get(
+      uri,
+    );
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
