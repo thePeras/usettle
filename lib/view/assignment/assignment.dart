@@ -251,7 +251,7 @@ class AssignmentState extends State<AssignmentPage> {
                       Padding(
                         padding: EdgeInsets.only(left: 6),
                         child: Text(
-                          "$itemName x$totalQuantity",
+                          itemName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -260,10 +260,19 @@ class AssignmentState extends State<AssignmentPage> {
                       ),
                     ],
                   ),
-                  Text(
-                    "${totalPrice.toStringAsFixed(2)}€",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-                  ),
+                  Container(
+                      width: 90,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('x' + totalQuantity.toString()),
+                          Text(
+                            "${totalPrice.toStringAsFixed(2)}€",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 15),
+                          ),
+                        ],
+                      ))
                 ],
               ),
             ),
