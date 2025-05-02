@@ -1,4 +1,4 @@
-package com.example.collectors
+package com.example.usettle
 
 import io.flutter.embedding.android.FlutterActivity
 

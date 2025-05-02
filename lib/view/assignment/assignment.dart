@@ -1,13 +1,14 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:collectors/models/Participant.dart';
-import 'package:collectors/models/Receipt.dart';
-import 'package:collectors/models/item.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:usettle/models/item.dart';
+import 'package:usettle/models/participant.dart';
+import 'package:usettle/models/receipt.dart';
 
 class AssignmentPage extends StatefulWidget {
   const AssignmentPage({

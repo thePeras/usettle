@@ -1,5 +1,5 @@
-import 'package:collectors/models/item.dart';
-import 'package:collectors/models/profile.dart';
+import 'package:usettle/models/item.dart';
+import 'package:usettle/models/profile.dart';
 
 class Participant {
   const Participant({

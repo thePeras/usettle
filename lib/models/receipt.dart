@@ -1,4 +1,4 @@
-import 'package:collectors/models/item.dart';
+import 'package:usettle/models/item.dart';
 
 class Receipt {
   const Receipt({required this.total, required this.date, required this.items});
