@@ -8,6 +8,19 @@ class ConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: PhosphorIcon(
+            PhosphorIconsRegular.caretLeft,
+            color: Color(0xFF696969),
+            size: 30.0,
+            semanticLabel: 'Back',
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: SafeArea( 
         bottom: false,
         child: Padding(
