@@ -1,8 +1,8 @@
-import 'package:collectors/view/history/invoices_history.dart';
-import 'package:collectors/view/home/home.dart';
-import 'package:collectors/view/invoice_confirm/confirmation_page.dart';
-import 'package:collectors/view/scan/scanner.dart';
-import 'package:collectors/view/contacts/contacts_selection.dart';
+import 'package:usettle/view/history/invoices_history.dart';
+import 'package:usettle/view/home/home.dart';
+import 'package:usettle/view/invoice_confirm/confirmation_page.dart';
+import 'package:usettle/view/scan/scanner.dart';
+import 'package:usettle/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'The Collectors',
+      title: 'uSettle',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: _greenColor),
         //fontFamily: 'Monteserrat' TODO: change to the correct name

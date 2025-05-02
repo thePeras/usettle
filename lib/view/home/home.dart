@@ -1,4 +1,4 @@
-import 'package:collectors/view/common/pages/general.dart';
+import 'package:usettle/view/common/pages/general.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
