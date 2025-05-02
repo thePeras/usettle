@@ -5,15 +5,11 @@ import 'package:intl/intl.dart';
 class CustomTab {
   final String name;
   final Image? imageUrl;
-  late int total = 0;
+  late double total = 0;
   bool owes = false;
   late final List<Transaction> transactions;
 
-  CustomTab({
-    required this.name,
-    required this.transactions,
-    this.imageUrl
-  }) {
+  CustomTab({required this.name, required this.transactions, this.imageUrl}) {
     total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
     owes = total < 0;
   }
@@ -28,7 +24,7 @@ class CustomTab {
 class Transaction {
   final DateTime time;
   final String description;
-  final int quantity;
+  final double quantity;
 
   const Transaction({
     required this.time,
@@ -40,9 +36,7 @@ class Transaction {
 class TabScreen extends StatefulWidget {
   late CustomTab tab;
 
-  TabScreen({
-    super.key,
-  });
+  TabScreen({super.key});
 
   @override
   TabScreenState createState() => TabScreenState();
@@ -52,7 +46,6 @@ class TabScreenState extends State<TabScreen> {
   static const Color _greyColor = Color(0xFF696969);
   static const Color _greenColor = Color(0xFF2A6E55);
   static const Color _redColor = Colors.red;
-
 
   @override
   void didChangeDependencies() {
@@ -115,10 +108,7 @@ class TabScreenState extends State<TabScreen> {
                 const CircleAvatar(
                   backgroundColor: Colors.grey,
                   radius: 30,
-                  child: Text(
-                    'B',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('B', style: TextStyle(color: Colors.white)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -127,9 +117,7 @@ class TabScreenState extends State<TabScreen> {
                     children: [
                       const Text(
                         'Minha Conta com',
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
+                        style: TextStyle(fontSize: 24),
                       ),
                       Text(
                         widget.tab.name,
@@ -137,10 +125,10 @@ class TabScreenState extends State<TabScreen> {
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 16), // Add some space after the heading
@@ -153,15 +141,19 @@ class TabScreenState extends State<TabScreen> {
                     children: [
                       Text(
                         widget.tab.owes ? 'Devo' : 'Deve-me',
-                        style: const TextStyle(fontSize: 18, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         widget.tab.total.toStringAsFixed(2),
                         style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: widget.tab.owes ? _redColor : _greenColor),
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: widget.tab.owes ? _redColor : _greenColor,
+                        ),
                       ),
                     ],
                   ),
@@ -171,10 +163,16 @@ class TabScreenState extends State<TabScreen> {
                       color: widget.tab.owes ? _redColor : _greenColor,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
                       child: Text(
                         widget.tab.owes ? 'Enviar' : 'Pedir',
-                        style: const TextStyle(fontSize: 18, color: Colors.white),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -184,7 +182,11 @@ class TabScreenState extends State<TabScreen> {
             const SizedBox(height: 30),
             Expanded(
               child: ListView.separated(
-                itemCount: widget.tab.transactions.length, // Based on the number of items in the image
+                itemCount:
+                    widget
+                        .tab
+                        .transactions
+                        .length, // Based on the number of items in the image
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   return buildRow(widget.tab.transactions.elementAt(index));

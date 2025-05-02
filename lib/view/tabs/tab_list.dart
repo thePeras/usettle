@@ -14,7 +14,6 @@ class TabSelectionPage extends StatefulWidget {
 
 class TabSelectionPageState extends State<TabSelectionPage> {
   List<CustomTab> _allTabs = [];
-  final List<CustomTab> _selectedTabs = [];
   List<CustomTab> _filteredTabs = [];
   final TextEditingController _searchController = TextEditingController();
 
@@ -31,13 +30,12 @@ class TabSelectionPageState extends State<TabSelectionPage> {
 
   void _filterTabs(String query) {
     setState(() {
-      _filteredTabs = _allTabs
-          .where(
-            (tab) => tab.name.toLowerCase().contains(
-          query.toLowerCase(),
-        ),
-      )
-          .toList();
+      _filteredTabs =
+          _allTabs
+              .where(
+                (tab) => tab.name.toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
     });
   }
 
@@ -47,7 +45,6 @@ class TabSelectionPageState extends State<TabSelectionPage> {
       _searchController.clear();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +73,10 @@ class TabSelectionPageState extends State<TabSelectionPage> {
                   child: _buildSearchBar(),
                 ),
                 Expanded(
-                  child: _allTabs.isEmpty ? _buildShimmerLoading() : _buildTabList(),
+                  child:
+                      _allTabs.isEmpty
+                          ? _buildShimmerLoading()
+                          : _buildTabList(),
                 ),
               ],
             ),
@@ -109,41 +109,42 @@ class TabSelectionPageState extends State<TabSelectionPage> {
       itemBuilder: (context, index) {
         final tab = _filteredTabs[index];
         return ListTile(
-          leading: tab.imageUrl != null
-              ? CircleAvatar(
-            backgroundImage: NetworkImage('https://picsum.photos/id/${_filteredTabs.indexOf(tab) + 20}/200/200'),
-          )
-              : CircleAvatar(
-            backgroundColor: _greyColor,
-            child: Text(
-              tab.name.isNotEmpty ? tab.name[0] : '?',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          leading:
+              tab.imageUrl != null
+                  ? CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      'https://picsum.photos/id/${_filteredTabs.indexOf(tab) + 20}/200/200',
+                    ),
+                  )
+                  : CircleAvatar(
+                    backgroundColor: _greyColor,
+                    child: Text(
+                      tab.name.isNotEmpty ? tab.name[0] : '?',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(tab.name),
               Text(
-                tab.owes ? 'Devo ${tab.total}€' : 'Deve-me ${tab.total}€',
+                tab.owes
+                    ? 'Devo ${tab.total.toStringAsFixed(2)}€'
+                    : 'Deve-me ${tab.total.toStringAsFixed(2)}€',
                 style: TextStyle(color: tab.owes ? _redColor : _greenColor),
               ),
             ],
           ),
-          trailing:
-              PhosphorIcon(
-                PhosphorIcons.caretRight(),
-                color: _greenColor,
-                size: 30.0,
+          trailing: PhosphorIcon(
+            PhosphorIcons.caretRight(),
+            color: _greenColor,
+            size: 30.0,
           ),
-          onTap: () => {
-            Navigator.pushNamed(
-              context,
-              '/single-tab',
-              arguments: tab
-            )
-          },
+          onTap:
+              () => {
+                Navigator.pushNamed(context, '/single-tab', arguments: tab),
+              },
         );
       },
     );
@@ -160,16 +161,17 @@ class TabSelectionPageState extends State<TabSelectionPage> {
           color: _greyColor,
           size: 20.0,
         ),
-        suffixIcon: _searchController.text.isEmpty
-            ? null
-            : IconButton(
-          icon: PhosphorIcon(
-            PhosphorIconsRegular.x,
-            color: _greyColor,
-            size: 20.0,
-          ),
-          onPressed: _clearSearch,
-        ),
+        suffixIcon:
+            _searchController.text.isEmpty
+                ? null
+                : IconButton(
+                  icon: PhosphorIcon(
+                    PhosphorIconsRegular.x,
+                    color: _greyColor,
+                    size: 20.0,
+                  ),
+                  onPressed: _clearSearch,
+                ),
         filled: true,
         fillColor: Colors.grey[200],
         contentPadding: EdgeInsets.symmetric(vertical: 14.0),
