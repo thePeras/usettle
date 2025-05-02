@@ -2,8 +2,20 @@ import 'package:collectors/view/home/home.dart';
 import 'package:collectors/view/scan/scanner.dart';
 import 'package:collectors/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; 
 
-void main() {
+Future<void> main() async { 
+  WidgetsFlutterBinding.ensureInitialized(); 
+  await dotenv.load(fileName: ".env"); 
+
+  final apiKey = dotenv.env['GEMINI_API_KEY'];
+  if (apiKey == null || apiKey.isEmpty) {
+    print('Error: GEMINI_API_KEY not found in .env file');
+    return;
+  }
+  Gemini.init(apiKey: apiKey);
+
   runApp(const MyApp());
 }
 
