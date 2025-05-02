@@ -38,11 +38,10 @@ class Transaction {
 }
 
 class TabScreen extends StatefulWidget {
-  final CustomTab tab;
+  late CustomTab tab;
 
-  const TabScreen({
+  TabScreen({
     super.key,
-    required this.tab,
   });
 
   @override
@@ -53,6 +52,13 @@ class TabScreenState extends State<TabScreen> {
   static const Color _greyColor = Color(0xFF696969);
   static const Color _greenColor = Color(0xFF2A6E55);
   static const Color _redColor = Colors.red;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.tab = ModalRoute.of(context)!.settings.arguments as CustomTab;
+  }
 
   Widget buildRow(Transaction transaction) {
     bool isOwed = transaction.quantity < 0;

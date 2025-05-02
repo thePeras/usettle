@@ -108,7 +108,6 @@ class TabSelectionPageState extends State<TabSelectionPage> {
       itemCount: _filteredTabs.length,
       itemBuilder: (context, index) {
         final tab = _filteredTabs[index];
-        final isSelected = _selectedTabs.contains(tab);
         return ListTile(
           leading: tab.imageUrl != null
               ? CircleAvatar(
@@ -139,7 +138,11 @@ class TabSelectionPageState extends State<TabSelectionPage> {
                 size: 30.0,
           ),
           onTap: () => {
-            // TODO: Link to TabScreen with tab
+            Navigator.pushNamed(
+              context,
+              '/single-tab',
+              arguments: tab
+            )
           },
         );
       },
