@@ -123,30 +123,4 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
       ),
     );
   }
-
-  Future<void> checkMBWayRequest() async {
-    try {
-      final Map<String, dynamic> response = await mbwayApi.checkPaymentStatus();
-      print(response);
-    } catch (e) {
-      print('Error while checking MBWAY Request: $e');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        TextButton(
-          onPressed: createMBWayRequest,
-          child: const Text('Create Payment'),
-        ),
-        TextButton(
-          onPressed: checkMBWayRequest,
-          child: const Text('Check Payment'),
-        ),
-      ],
-    );
-  }
 }

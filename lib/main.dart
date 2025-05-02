@@ -1,3 +1,4 @@
+import 'package:usettle/view/history/invoices_history.dart';
 import 'package:usettle/view/home/home.dart';
 import 'package:usettle/view/invoice_confirm/confirmation_page.dart';
 import 'package:usettle/view/scan/scanner.dart';
@@ -36,11 +37,13 @@ class MyApp extends StatelessWidget {
         //fontFamily: 'Monteserrat' TODO: change to the correct name
       ),
       home: HomePage(),
-      initialRoute: '/tabs',
+      initialRoute: '/home',
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/home':
             return _createRoute(const HomePage(), settings);
+          case '/history':
+            return _createRoute(const InvoicesHistoryPage(), settings);
           case '/scan':
             return _createRoute(const Scanner(), settings);
           case '/contacts':
