@@ -5,6 +5,9 @@ import 'package:usettle/view/common/pages/general.dart';
 import 'package:usettle/view/tabs/tab_list.dart';
 import 'package:usettle/view/tabs/tab_screen.dart';
 
+import '../../model/custom_tab.dart';
+import '../../model/transaction.dart';
+
 class TabsPage extends StatefulWidget {
   const TabsPage({super.key});
 

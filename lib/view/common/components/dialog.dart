@@ -3,6 +3,8 @@ import 'package:usettle/view/common/components/modal/footer.dart';
 import 'package:usettle/view/common/components/modal/item_list.dart';
 import 'package:flutter/material.dart';
 
+import 'modal/ItemListEntry.dart';
+
 class CustomDialog extends StatefulWidget {
   late final List<ItemListEntry> itemList;
   double total = 0;

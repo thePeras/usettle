@@ -1,32 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class ItemListEntry {
-  final String name;
-  final double price;
+import 'ItemListEntry.dart';
 
-  const ItemListEntry({required this.name, required this.price});
-
-  List<Widget> toTextList() {
-    return [
-      SizedBox(
-        width: 150,
-        child: Text(
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          softWrap: false,
-        ),
-      ),
-      Text("${price.toStringAsFixed(2)}€"),
-    ];
-  }
-
-  double calculatePrice() {
-    return price;
-  }
-}
 
 class ModalItemList extends StatefulWidget {
   final List<ItemListEntry> itemList;

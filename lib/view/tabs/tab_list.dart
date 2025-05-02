@@ -3,6 +3,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:usettle/view/tabs/tab_screen.dart';
 
+import '../../model/custom_tab.dart';
+
 class TabSelectionPage extends StatefulWidget {
   final List<CustomTab> initialTabs;
 
