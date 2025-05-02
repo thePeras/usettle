@@ -1,3 +1,6 @@
+import 'package:collectors/models/item.dart';
+import 'package:collectors/models/Participant.dart';
+import 'package:collectors/models/profile.dart';
 import 'package:collectors/models/Receipt.dart';
 import 'package:collectors/view/assignment/assignment.dart';
 import 'package:collectors/view/home/home.dart';
@@ -31,9 +34,86 @@ class MyApp extends StatelessWidget {
           case '/history':
             return _createRoute(
                 AssignmentPage(
-                    receipt:
-                        Receipt(total: 83.72, date: DateTime.now(), items: []),
-                    participants: []),
+                    receipt: Receipt(
+                        total: 120.50,
+                        date: DateTime(2025, 5, 2),
+                        items: [
+                          Item(name: 'Double Smash Burguer', price: 3.50),
+                          Item(name: 'Apples', price: 6.32),
+                          Item(name: 'Apples', price: 3.50),
+                          Item(name: 'Bread', price: 2.00),
+                          Item(name: 'Milk', price: 1.50),
+                        ]),
+                    participants: [
+                      Participant(
+                          person: Profile(
+                              name: 'Alice',
+                              contact: 'alice@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/alice.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Milk', price: 1.50),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Alice',
+                              contact: 'alice@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/alice.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Milk', price: 1.50),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Alice',
+                              contact: 'alice@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/alice.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Milk', price: 1.50),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Alice',
+                              contact: 'alice@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/alice.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Milk', price: 1.50),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Alice',
+                              contact: 'alice@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/alice.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Milk', price: 1.50),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Bob',
+                              contact: 'bob@example.com',
+                              avatarUrl: 'https://example.com/avatar/bob.png'),
+                          items: [
+                            Item(name: 'Bread', price: 2.00),
+                          ]),
+                      Participant(
+                          person: Profile(
+                              name: 'Charlie',
+                              contact: 'charlie@example.com',
+                              avatarUrl:
+                                  'https://example.com/avatar/charlie.png'),
+                          items: [
+                            Item(name: 'Apples', price: 3.50),
+                            Item(name: 'Bread', price: 2.00),
+                          ]),
+                    ]),
                 settings);
           default:
             return null;
