@@ -1,17 +1,28 @@
 import 'package:collectors/view/common/components/navbar.dart';
 import 'package:flutter/material.dart';
 
-abstract class GeneralPage extends StatelessWidget {
-  const GeneralPage({super.key});
+abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
+  String? getTitle();
 
   Widget getBody(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
+    String? title = getTitle();
+
     return Scaffold(
       extendBody: true,
+      appBar:
+          title != null
+              ? AppBar(
+                title: Text(title),
+                centerTitle: true,
+                elevation: 0,
+                automaticallyImplyLeading: false,
+              )
+              : null,
       body: getBody(context),
-      bottomNavigationBar: SafeArea(child: CustomBottomNavbar()),
+      bottomNavigationBar: const SafeArea(child: CustomBottomNavbar()),
     );
   }
 }
