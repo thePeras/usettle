@@ -1,53 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:intl/intl.dart';
 
 class Tab {
   final String name;
-  int total = 0;
+  late int total = 0;
   bool owes = false;
   late final List<Transaction> transactions;
 
   Tab({
     required this.name,
     required this.transactions,
-  });
+  }) {
+    total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
+    owes = total < 0;
+  }
 
   void updateTransactions(List<Transaction> transactions) {
     this.transactions = transactions;
-    total = transactions.map((e) => e.quantity).reduce((v,e) => v+e);
+    total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
     owes = total < 0;
-
   }
 }
 
 class Transaction {
-  final String time;
+  final DateTime time;
   final String description;
   final int quantity;
 
   const Transaction({
     required this.time,
     required this.description,
-    required this.quantity
+    required this.quantity,
   });
 }
 
-class TabScreen extends StatefulWidget{
+class TabScreen extends StatefulWidget {
   final Tab tab;
 
   const TabScreen({
     super.key,
-    required this.tab
+    required this.tab,
   });
-
 
   @override
   TabScreenState createState() => TabScreenState();
 }
 
-class TabScreenState extends State<TabScreen>{
+class TabScreenState extends State<TabScreen> {
   static const Color _greyColor = Color(0xFF696969);
   static const Color _greenColor = Color(0xFF2A6E55);
+  static const Color _redColor = Colors.red;
 
   Widget buildRow(Transaction transaction) {
     bool isOwed = transaction.quantity < 0;
@@ -57,9 +60,7 @@ class TabScreenState extends State<TabScreen>{
         Row(
           children: [
             Icon(
-                isOwed
-                  ? Icons.arrow_downward
-                  : Icons.arrow_upward,
+              isOwed ? Icons.arrow_downward : Icons.arrow_upward,
               color: isOwed ? Colors.red : _greenColor,
             ),
             const SizedBox(width: 8),
@@ -67,7 +68,7 @@ class TabScreenState extends State<TabScreen>{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transaction.time,
+                  DateFormat.yMMMd().format(transaction.time),
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 Text(transaction.description),
@@ -78,7 +79,6 @@ class TabScreenState extends State<TabScreen>{
         Text(transaction.quantity.toStringAsFixed(2)),
       ],
     );
-
   }
 
   @override
@@ -113,11 +113,11 @@ class TabScreenState extends State<TabScreen>{
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Minha Conta com',
                         style: TextStyle(
                           fontSize: 24,
@@ -125,7 +125,7 @@ class TabScreenState extends State<TabScreen>{
                       ),
                       Text(
                         widget.tab.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -137,15 +137,15 @@ class TabScreenState extends State<TabScreen>{
             ),
             const SizedBox(height: 16), // Add some space after the heading
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     children: [
-                      const Text(
-                        'Devo',
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      Text(
+                        widget.tab.owes ? 'Devo' : 'Deve-me',
+                        style: const TextStyle(fontSize: 18, color: Colors.grey),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -153,28 +153,22 @@ class TabScreenState extends State<TabScreen>{
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: _greenColor),
+                            color: widget.tab.owes ? _redColor : _greenColor),
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: _greenColor,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        onPressed: () => {},
-                        child: const Text(
-                          'Enviar',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      color: widget.tab.owes ? _redColor : _greenColor,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        widget.tab.owes ? 'Enviar' : 'Pedir',
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -185,7 +179,6 @@ class TabScreenState extends State<TabScreen>{
                 itemCount: widget.tab.transactions.length, // Based on the number of items in the image
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
-                  print(index);
                   return buildRow(widget.tab.transactions.elementAt(index));
                   // You'll likely want to replace this with your actual transaction data
                 },
