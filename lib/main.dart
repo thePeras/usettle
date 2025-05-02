@@ -1,4 +1,3 @@
-import 'package:usettle/view/history/invoices_history.dart';
 import 'package:usettle/view/home/home.dart';
 import 'package:usettle/view/invoice_confirm/confirmation_page.dart';
 import 'package:usettle/view/scan/scanner.dart';
@@ -6,6 +5,7 @@ import 'package:usettle/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:usettle/view/tabs/tabs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,19 +35,19 @@ class MyApp extends StatelessWidget {
         //fontFamily: 'Monteserrat' TODO: change to the correct name
       ),
       home: HomePage(),
-      initialRoute: '/home',
+      initialRoute: '/tabs',
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/home':
             return _createRoute(const HomePage(), settings);
           case '/scan':
             return _createRoute(const Scanner(), settings);
-          case '/history':
-            return _createRoute(InvoicesHistoryPage(), settings);
           case '/contacts':
             return _createRoute(ContactsSelectionPage(), settings);
           case '/confirmation':
             return _createRoute(const ConfirmationPage(), settings);
+          case '/tabs':
+            return _createRoute(TabsPage(), settings);
           default:
             return null;
         }
