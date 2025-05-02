@@ -52,7 +52,7 @@ class CustomBottomNavbar extends StatelessWidget {
                 ).toIconButton(),
           ),
           BottomNavbarItem(
-            icon: PhosphorIcons.clockCountdown(
+            icon: PhosphorIcons.usersThree(
               currentRoute == '/tabs'
                   ? PhosphorIconsStyle.fill
                   : PhosphorIconsStyle.regular,

@@ -2,36 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:intl/intl.dart';
 
-class CustomTab {
-  final String name;
-  final Image? imageUrl;
-  late double total = 0;
-  bool owes = false;
-  late final List<Transaction> transactions;
+import '../../model/custom_tab.dart';
+import '../../model/transaction.dart';
 
-  CustomTab({required this.name, required this.transactions, this.imageUrl}) {
-    total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
-    owes = total < 0;
-  }
 
-  void updateTransactions(List<Transaction> transactions) {
-    this.transactions = transactions;
-    total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
-    owes = total < 0;
-  }
-}
-
-class Transaction {
-  final DateTime time;
-  final String description;
-  final double quantity;
-
-  const Transaction({
-    required this.time,
-    required this.description,
-    required this.quantity,
-  });
-}
 
 class TabScreen extends StatefulWidget {
   late CustomTab tab;
