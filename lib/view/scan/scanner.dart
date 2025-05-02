@@ -4,8 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:usettle/models/item.dart';
-import 'package:usettle/models/receipt.dart';
 
 class Scanner extends StatefulWidget {
   const Scanner({super.key});
@@ -57,20 +55,19 @@ class ScannerState extends State<Scanner> {
       final Uint8List imageBytes = await imageFile.readAsBytes();
 
       const String prompt = '''
-        Analyze the following receipt.
-        Identify each purchased item, its price, and its quantity.
-        Return the result ONLY as a JSON string representing a list of objects.
-        Each object in the list must have the following keys:
+      Analyze the following receipt.
+      Identify each purchased item, its price, and its quantity.
+      Return the result ONLY as a JSON string representing a list of objects.
+      Each object in the list must have the following keys:
+      - "product": string (the name of the item)
+      - "price": float or string (the price of the single item or total for the line item)
+      - "quantity": integer (the number of units purchased)
 
-        - "product": string (the name of the item)
-        - "price": float or string (the total price for the line item, not the unit price)
-        - "quantity": integer (the number of units purchased)
-
-        If the quantity is not explicitly mentioned for an item, assume it is 1.
-        Omit the "IVA" tag.
-        Focus on the line items detailing purchases. Ignore totals, taxes, or store information unless they appear to be items.
-        Ensure the ENTIRE output is valid JSON and nothing else. Do NOT include any explanatory text, markdown formatting, or anything else before or after the JSON list. Do not include any trailing commas.
-        ''';
+      If the quantity is not explicitly mentioned for an item, assume it is 1.
+      Omit the "IVA" tag.
+      Focus on the line items detailing purchases. Ignore totals, taxes, store information unless they look like items.
+      Ensure the ENTIRE output is valid JSON and nothing else.  Do NOT include any explanatory text, markdown formatting, or anything else before or after the JSON list.  Do not include any trailing commas.
+      ''';
 
       gemini.textAndImage(text: prompt, images: [imageBytes]).then((output) {
         String? rawResponse = output?.content?.parts?.last.text;
@@ -98,34 +95,6 @@ class ScannerState extends State<Scanner> {
 
             setState(() {
               _geminiResponse = formattedJson;
-
-              final items = (jsonResponse as List).expand((item) {
-                final name = item['product'] as String;
-                final price = double.tryParse(item['price'].toString()) ?? 0.0;
-                final quantity =
-                    double.tryParse(item['quantity'].toString()) ?? 1.0;
-                return List.generate(
-                  quantity.toInt(),
-                  (_) => Item(id: 0, name: name, price: price / quantity),
-                );
-              }).toList();
-
-              // Assign unique IDs to each item
-              for (int i = 0; i < items.length; i++) {
-                items[i] = Item(
-                  id: i,
-                  name: items[i].name,
-                  price: items[i].price,
-                );
-              }
-
-              final receipt = Receipt(
-                total: items.fold(0.0, (sum, item) => sum + item.price),
-                date: DateTime.now(),
-                items: items,
-              );
-
-              Navigator.pushNamed(context, '/contacts', arguments: receipt);
             });
           } catch (e) {
             print('Error decoding JSON after cleaning: $e');

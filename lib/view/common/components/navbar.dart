@@ -53,13 +53,13 @@ class CustomBottomNavbar extends StatelessWidget {
           ),
           BottomNavbarItem(
             icon: PhosphorIcons.clockCountdown(
-              currentRoute == '/history'
+              currentRoute == '/tabs'
                   ? PhosphorIconsStyle.fill
                   : PhosphorIconsStyle.regular,
             ),
             callback: () {
-              if (currentRoute != '/history') {
-                Navigator.pushReplacementNamed(context, '/history');
+              if (currentRoute != '/tabs') {
+                Navigator.pushReplacementNamed(context, '/tabs');
               }
             },
           ).toIconButton(),
