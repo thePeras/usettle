@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:usettle/view/tabs/tab_list.dart';
 import 'package:usettle/view/tabs/tab_screen.dart';
 
 class TabsPage extends StatelessWidget {
@@ -11,12 +12,23 @@ class TabsPage extends StatelessWidget {
       Transaction(time: DateTime.now(), description: "Almoço", quantity: 15),
       Transaction(time: DateTime.now(), description: "Snack", quantity: -12),
       Transaction(time: DateTime.now(), description: "Compras", quantity: 100),
-      Transaction(time: DateTime.now(), description: "Aluguel", quantity: -300),
+      Transaction(time: DateTime.now(), description: "Aluguel", quantity: 300),
       Transaction(time: DateTime.now(), description: "Netflix", quantity: 9),
     ];
-    Tab tab = Tab(
+    CustomTab tab = CustomTab(
         name: "Rubem Neto",
         transactions: transactions);
-    return TabScreen(tab: tab);
+    // return TabScreen(tab: tab);
+    return TabSelectionPage(initialTabs: [
+      CustomTab(
+          name: "Rubem Neto",
+          transactions: transactions),
+      CustomTab(
+          name: "Beatriz FEUP",
+          transactions: transactions),
+      CustomTab(
+          name: "Carlos Amigo",
+          transactions: transactions),
+    ]);
   }
 }

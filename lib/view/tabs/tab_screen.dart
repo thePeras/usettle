@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:intl/intl.dart';
 
-class Tab {
+class CustomTab {
   final String name;
+  final Image? imageUrl;
   late int total = 0;
   bool owes = false;
   late final List<Transaction> transactions;
 
-  Tab({
+  CustomTab({
     required this.name,
     required this.transactions,
+    this.imageUrl
   }) {
     total = transactions.map((e) => e.quantity).reduce((v, e) => v + e);
     owes = total < 0;
@@ -36,7 +38,7 @@ class Transaction {
 }
 
 class TabScreen extends StatefulWidget {
-  final Tab tab;
+  final CustomTab tab;
 
   const TabScreen({
     super.key,
