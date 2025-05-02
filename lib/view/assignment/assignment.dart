@@ -2,9 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collectors/models/Participant.dart';
 import 'package:collectors/models/Receipt.dart';
 import 'package:collectors/models/item.dart';
-import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AssignmentPage extends StatefulWidget {
@@ -118,20 +118,21 @@ class AssignmentState extends State<AssignmentPage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ...List.generate(
-                      quantity,
-                      (index) {
-                        return DashedCircle(
-                          dashes: 8,
-                          gapSize: 5,
-                          color: Colors.grey,
-                          child: CircleAvatar(
-                            radius: 10,
-                            backgroundColor: Colors.transparent,
-                            child: null,
-                          ),
-                        );
-                      },
+                    SizedBox(
+                      height: 25,
+                      width: 40,
+                      child: Stack(
+                        children: [
+                          ...List.generate(quantity, (index) {
+                            return Positioned(
+                                left: index * 14.0,
+                                child: PhosphorIcon(
+                                    size: 28,
+                                    PhosphorIcons.circleDashed(
+                                        PhosphorIconsStyle.duotone)));
+                          }),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 6),
