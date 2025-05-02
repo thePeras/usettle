@@ -24,7 +24,7 @@ class SummaryCard extends StatelessWidget {
       elevation: 2.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0), // Adjusted padding
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
