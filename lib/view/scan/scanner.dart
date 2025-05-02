@@ -69,59 +69,55 @@ class ScannerState extends State<Scanner> {
       Ensure the ENTIRE output is valid JSON and nothing else.  Do NOT include any explanatory text, markdown formatting, or anything else before or after the JSON list.  Do not include any trailing commas.
       ''';
 
-      gemini
-          .textAndImage(text: prompt, images: [imageBytes])
-          .then((output) {
-            String? rawResponse = output?.content?.parts?.last.text;
+      gemini.textAndImage(text: prompt, images: [imageBytes]).then((output) {
+        String? rawResponse = output?.content?.parts?.last.text;
 
-            if (rawResponse != null) {
-              rawResponse = rawResponse.trim();
-              if (rawResponse.startsWith('```json')) {
-                rawResponse = rawResponse.substring(7);
-              }
-              if (rawResponse.endsWith('```')) {
-                rawResponse = rawResponse.substring(0, rawResponse.length - 3);
-              }
-              if (rawResponse.startsWith('`')) {
-                rawResponse = rawResponse.substring(1);
-              }
-              if (rawResponse.endsWith('`')) {
-                rawResponse = rawResponse.substring(0, rawResponse.length - 1);
-              }
+        if (rawResponse != null) {
+          rawResponse = rawResponse.trim();
+          if (rawResponse.startsWith('```json')) {
+            rawResponse = rawResponse.substring(7);
+          }
+          if (rawResponse.endsWith('```')) {
+            rawResponse = rawResponse.substring(0, rawResponse.length - 3);
+          }
+          if (rawResponse.startsWith('`')) {
+            rawResponse = rawResponse.substring(1);
+          }
+          if (rawResponse.endsWith('`')) {
+            rawResponse = rawResponse.substring(0, rawResponse.length - 1);
+          }
 
-              try {
-                final jsonResponse = jsonDecode(rawResponse);
-                final formattedJson = JsonEncoder.withIndent(
-                  '  ',
-                ).convert(jsonResponse);
+          try {
+            final jsonResponse = jsonDecode(rawResponse);
+            final formattedJson = JsonEncoder.withIndent(
+              '  ',
+            ).convert(jsonResponse);
 
-                setState(() {
-                  _geminiResponse = formattedJson;
-                });
-              } catch (e) {
-                print('Error decoding JSON after cleaning: $e');
-                setState(() {
-                  _geminiResponse =
-                      'Error: Could not parse Gemini response as JSON after cleaning. Raw response: $rawResponse. Error: $e';
-                });
-              }
-            } else {
-              setState(() {
-                _geminiResponse = 'Error: Gemini returned a null response.';
-              });
-            }
-          })
-          .catchError((e) {
-            print('Error calling Gemini: $e');
             setState(() {
-              _geminiResponse = 'Error calling Gemini: $e';
+              _geminiResponse = formattedJson;
             });
-          })
-          .whenComplete(() {
+          } catch (e) {
+            print('Error decoding JSON after cleaning: $e');
             setState(() {
-              _isProcessing = false;
+              _geminiResponse =
+                  'Error: Could not parse Gemini response as JSON after cleaning. Raw response: $rawResponse. Error: $e';
             });
+          }
+        } else {
+          setState(() {
+            _geminiResponse = 'Error: Gemini returned a null response.';
           });
+        }
+      }).catchError((e) {
+        print('Error calling Gemini: $e');
+        setState(() {
+          _geminiResponse = 'Error calling Gemini: $e';
+        });
+      }).whenComplete(() {
+        setState(() {
+          _isProcessing = false;
+        });
+      });
     } catch (e) {
       print('Error taking picture or processing: $e');
       setState(() {
@@ -140,109 +136,107 @@ class ScannerState extends State<Scanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          _isCameraInitialized
-              ? Stack(
-                children: [
-                  Positioned.fill(
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: _cameraController!.value.previewSize!.height,
-                        height: _cameraController!.value.previewSize!.width,
-                        child: CameraPreview(_cameraController!),
-                      ),
+      body: _isCameraInitialized
+          ? Stack(
+              children: [
+                Positioned.fill(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _cameraController!.value.previewSize!.height,
+                      height: _cameraController!.value.previewSize!.width,
+                      child: CameraPreview(_cameraController!),
                     ),
                   ),
-                  Positioned(
-                    left: 15,
-                    child: SafeArea(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          onPressed:
-                              () => Navigator.popAndPushNamed(context, '/home'),
-                          icon: PhosphorIcon(
-                            color: Colors.black,
-                            PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
-                          ),
-                        ),
+                ),
+                Positioned(
+                  left: 15,
+                  child: SafeArea(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 15,
-                    child: SafeArea(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: PhosphorIcon(
-                            color: Colors.black,
-                            PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
-                          ),
+                      child: IconButton(
+                        onPressed: () =>
+                            Navigator.popAndPushNamed(context, '/home'),
+                        icon: PhosphorIcon(
+                          color: Colors.black,
+                          PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
                         ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 50,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child:
-                          _isProcessing
-                              ? CircularProgressIndicator()
-                              : Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green[800],
-                                  shape: BoxShape.circle,
+                ),
+                Positioned(
+                  left: 15,
+                  child: SafeArea(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: PhosphorIcon(
+                          color: Colors.black,
+                          PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 50,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: _isProcessing
+                        ? CircularProgressIndicator()
+                        : Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green[800],
+                              shape: BoxShape.circle,
+                            ),
+                            padding: EdgeInsets.all(12),
+                            child: IconButton(
+                              onPressed: _takePictureAndAnalyze,
+                              icon: PhosphorIcon(
+                                color: Colors.white,
+                                PhosphorIcons.scan(
+                                  PhosphorIconsStyle.regular,
                                 ),
-                                padding: EdgeInsets.all(12),
-                                child: IconButton(
-                                  onPressed: _takePictureAndAnalyze,
-                                  icon: PhosphorIcon(
-                                    color: Colors.white,
-                                    PhosphorIcons.scan(
-                                      PhosphorIconsStyle.regular,
-                                    ),
-                                    size: 35,
-                                  ),
-                                ),
+                                size: 35,
                               ),
-                    ),
-                  ),
-                  if (_geminiResponse.isNotEmpty)
-                    Positioned(
-                      bottom: 120,
-                      left: 20,
-                      right: 20,
-                      child: Container(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.5,
-                        ),
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withAlpha(191),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Text(
-                            _geminiResponse,
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
                           ),
+                  ),
+                ),
+                if (_geminiResponse.isNotEmpty)
+                  Positioned(
+                    bottom: 120,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.5,
+                      ),
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withAlpha(191),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          _geminiResponse,
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
-                ],
-              )
-              : Center(child: CircularProgressIndicator()),
+                  ),
+              ],
+            )
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }

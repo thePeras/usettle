@@ -1,15 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:usettle/models/item.dart';
+import 'package:usettle/models/participant.dart';
+import 'package:usettle/models/profile.dart';
+import 'package:usettle/models/receipt.dart';
+import 'package:usettle/view/assignment/assignment.dart';
 import 'package:usettle/view/history/invoices_history.dart';
 import 'package:usettle/view/home/home.dart';
 import 'package:usettle/view/invoice_confirm/confirmation_page.dart';
 import 'package:usettle/view/scan/scanner.dart';
 import 'package:usettle/view/contacts/contacts_selection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:usettle/view/tabs/tab_screen.dart';
 import 'package:usettle/view/tabs/tabs.dart';
 
 Future<void> main() async {
+  initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
