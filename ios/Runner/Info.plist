@@ -49,5 +49,7 @@
 	<string>Requiring to </string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>your usage description here</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to your contacts.</string>
 </dict>
 </plist>

@@ -1,5 +1,6 @@
 import 'package:collectors/view/home/home.dart';
 import 'package:collectors/view/scan/scanner.dart';
+import 'package:collectors/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,8 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomePage(),
-      initialRoute: '/home',
+      //home: HomePage(), TODO: change that
+      home: ContactsSelectionPage(),
+      initialRoute: '/contacts',
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/home':
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
             return _createRoute(const Scanner(), settings);
           case '/history':
             return _createRoute(const HomePage(), settings);
+          case '/contacts':
+            return _createRoute(ContactsSelectionPage(), settings);
           default:
             return null;
         }
