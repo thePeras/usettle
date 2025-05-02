@@ -6,6 +6,8 @@ import 'package:usettle/view/contacts/contacts_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:usettle/view/tabs/tab_screen.dart';
+import 'package:usettle/view/tabs/tabs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,14 +42,18 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case '/home':
             return _createRoute(const HomePage(), settings);
+          case '/history':
+            return _createRoute(const InvoicesHistoryPage(), settings);
           case '/scan':
             return _createRoute(const Scanner(), settings);
-          case '/history':
-            return _createRoute(InvoicesHistoryPage(), settings);
           case '/contacts':
             return _createRoute(ContactsSelectionPage(), settings);
           case '/confirmation':
             return _createRoute(const ConfirmationPage(), settings);
+          case '/tabs':
+            return _createRoute(TabsPage(), settings);
+          case '/single-tab':
+            return _createRoute(TabScreen(), settings);
           default:
             return null;
         }
