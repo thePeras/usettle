@@ -1,4 +1,4 @@
-# collectors
+# uSettle
 
 A new Flutter project.
 

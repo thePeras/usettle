@@ -1,4 +1,4 @@
-import 'package:collectors/view/common/components/payment_progress_indicator.dart';
+import 'package:usettle/view/common/components/payment_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 

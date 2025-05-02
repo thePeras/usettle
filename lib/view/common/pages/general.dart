@@ -1,4 +1,4 @@
-import 'package:collectors/view/common/components/navbar.dart';
+import 'package:usettle/view/common/components/navbar.dart';
 import 'package:flutter/material.dart';
 
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {

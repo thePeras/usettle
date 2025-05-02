@@ -1,4 +1,4 @@
-import 'package:collectors/view/components/user_info_card.dart';
+import 'package:usettle/view/components/user_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

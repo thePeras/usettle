@@ -1,4 +1,4 @@
-import 'package:collectors/view/components/account_mbway_selector.dart';
+import 'package:usettle/view/components/account_mbway_selector.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoCard extends StatelessWidget {

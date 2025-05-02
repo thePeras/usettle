@@ -1,6 +1,6 @@
-import 'package:collectors/view/common/components/bill_card.dart';
-import 'package:collectors/view/common/components/tabs.dart';
-import 'package:collectors/view/common/pages/general.dart';
+import 'package:usettle/view/common/components/bill_card.dart';
+import 'package:usettle/view/common/components/tabs.dart';
+import 'package:usettle/view/common/pages/general.dart';
 import 'package:flutter/material.dart';
 
 // --- Mock Data ---
