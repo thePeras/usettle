@@ -46,7 +46,7 @@ class CustomBottomNavbar extends StatelessWidget {
                   color: Colors.white,
                   callback: () {
                     if (currentRoute != '/scan') {
-                      Navigator.pushReplacementNamed(context, '/scan');
+                      Navigator.pushNamed(context, '/scan');
                     }
                   },
                 ).toIconButton(),
