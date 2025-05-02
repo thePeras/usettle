@@ -48,6 +48,90 @@ class _TabsPageState extends GeneralPageViewState<TabsPage>{
         "Pequeno almoço",
         "Reparação do carro",
         "Viagem de fim de semana",
+
+        // Groceries & Food
+        "Supermercado Pingo Doce",
+        "Mercado Municipal",
+        "Talho Central",
+        "Peixaria da Esquina",
+        "Padaria Portuguesa",
+        "Frutaria do Bairro",
+        "Refeição no restaurante O Cantinho",
+        "Pizza para levar",
+        "Sushi Takeaway",
+        "Gelado artesanal",
+        "Encomenda de comida online (Uber Eats)",
+        "Compras no Celeiro (produtos naturais)",
+
+        // Utilities & Housing
+        "Conta da água (SMAS)",
+        "Fatura da luz (EDP)",
+        "Gás natural (Galp)",
+        "Serviços de internet e TV (NOS)",
+        "Mensalidade do condomínio",
+        "Reparação canalização",
+        "Pintura da sala",
+        "Compra de material de limpeza",
+
+        // Entertainment & Leisure
+        "Bilhetes para o concerto na Altice Arena",
+        "Entradas no Jardim Zoológico",
+        "Mensalidade do ginásio",
+        "Aluguer de filme online",
+        "Ida ao cinema no Dolce Vita",
+        "Livro comprado na Bertrand",
+        "Jogo de tabuleiro",
+        "Visita ao Museu Nacional de Grão Vasco",
+
+        // Transportation
+        "Gasolina no Intermarché",
+        "Portagem A1",
+        "Bilhete de comboio (CP)",
+        "Passe mensal (SMTUC)",
+        "Viagem de autocarro",
+        "Serviço de táxi",
+        "Aluguer de bicicleta GIRA",
+        "Estacionamento no centro",
+
+        // Shopping & Personal Care
+        "Roupa na Zara",
+        "Sapatos na Seaside",
+        "Cosméticos na Sephora",
+        "Corte de cabelo no barbeiro",
+        "Manicure e pedicure",
+        "Óculos novos na MultiOpticas",
+        "Jóias na Ourivesaria Portugal",
+
+        // Health & Wellness
+        "Consulta no médico de família",
+        "Medicamentos na farmácia",
+        "Suplementos alimentares",
+        "Sessão de fisioterapia",
+        "Aula de yoga",
+
+        // Education & Professional Development
+        "Mensalidade da faculdade",
+        "Curso de línguas online",
+        "Workshop profissional",
+        "Compra de material de estudo",
+
+        // Gifts & Donations
+        "Presente de aniversário",
+        "Oferta para o Natal",
+        "Doação à Cruz Vermelha",
+        "Contribuição para projeto social",
+
+        // Other
+        "Levantamento Multibanco",
+        "Depósito bancário",
+        "Taxas bancárias",
+        "Seguro do carro",
+        "Seguro de saúde",
+        "Impostos",
+        "Propinas escolares",
+        "Pensão de alimentos",
+        "Pequenos trabalhos ocasionais",
+        "Venda de artigos usados online",
       ];
 
       return Transaction(
@@ -97,8 +181,9 @@ class _TabsPageState extends GeneralPageViewState<TabsPage>{
     final random = Random();
 
     return names.map((e) =>
-      CustomTab(name: names[random.nextInt(names.length)],
-          transactions: getRandomTransactions(transactions: transactions, count: 10))
+      CustomTab(
+          name: names[random.nextInt(names.length)],
+          transactions: getRandomTransactions(transactions: transactions, count: 7))
     ).toList();
   }
 
