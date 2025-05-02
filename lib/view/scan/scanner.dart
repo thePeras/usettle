@@ -23,10 +23,7 @@ class ScannerState extends State<Scanner> {
   Future<void> _initializeCamera() async {
     _cameras = await availableCameras();
     if (_cameras != null && _cameras!.isNotEmpty) {
-      _cameraController = CameraController(
-        _cameras![0],
-        ResolutionPreset.high,
-      );
+      _cameraController = CameraController(_cameras![0], ResolutionPreset.high);
 
       await _cameraController!.initialize();
 
@@ -45,20 +42,21 @@ class ScannerState extends State<Scanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isCameraInitialized
-          ? Stack(
-              children: [
-                Positioned.fill(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _cameraController!.value.previewSize!.height,
-                      height: _cameraController!.value.previewSize!.width,
-                      child: CameraPreview(_cameraController!),
+      body:
+          _isCameraInitialized
+              ? Stack(
+                children: [
+                  Positioned.fill(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _cameraController!.value.previewSize!.height,
+                        height: _cameraController!.value.previewSize!.width,
+                        child: CameraPreview(_cameraController!),
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
+                  Positioned(
                     left: 15,
                     child: SafeArea(
                       child: Container(
@@ -67,37 +65,38 @@ class ScannerState extends State<Scanner> {
                           shape: BoxShape.circle,
                         ),
                         child: IconButton(
-                          onPressed: () =>
-                              Navigator.popAndPushNamed(context, '/home'),
+                          onPressed:
+                              () => Navigator.popAndPushNamed(context, '/home'),
                           icon: PhosphorIcon(
                             color: Colors.black,
                             PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
                           ),
                         ),
                       ),
-                    )),
-                Positioned(
-                  bottom: 50,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green[800],
-                      shape: BoxShape.circle,
                     ),
-                    padding: EdgeInsets.all(12),
-                    child: IconButton(
-                      onPressed: () => {},
-                      icon: PhosphorIcon(
-                        color: Colors.white,
-                        PhosphorIcons.scan(PhosphorIconsStyle.regular),
+                  ),
+                  Positioned(
+                    bottom: 50,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green[800],
+                        shape: BoxShape.circle,
+                      ),
+                      padding: EdgeInsets.all(12),
+                      child: IconButton(
+                        onPressed: () => {},
+                        icon: PhosphorIcon(
+                          color: Colors.white,
+                          PhosphorIcons.scan(PhosphorIconsStyle.regular),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )
-          : Center(child: CircularProgressIndicator()),
+                ],
+              )
+              : Center(child: CircularProgressIndicator()),
     );
   }
 }
