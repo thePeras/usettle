@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SummaryCard extends StatelessWidget {
   final String title;
@@ -37,7 +38,7 @@ class SummaryCard extends StatelessWidget {
                 const SizedBox(height: 4.0),
                 Row(
                   children: [
-                    Icon(Icons.person_outline, size: 16.0, color: Colors.grey[600]),
+                    PhosphorIcon(PhosphorIcons.userCircle(PhosphorIconsStyle.duotone), size: 16.0, color: Colors.grey[600]),
                     const SizedBox(width: 4.0),
                     Text(
                       isOwedToUser ? "$peopleCount pessoas" : "a $peopleCount pessoas",

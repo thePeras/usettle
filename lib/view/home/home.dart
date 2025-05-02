@@ -65,13 +65,20 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                         PendingInvoiceCard(
                           amount: "20 €",
                           date: "1 de maio 2025",
-                          peopleCount: 3,
+                          avatarUrls: const [
+                            'assets/imgs/profile_pics/Andre.png',
+                            'assets/imgs/profile_pics/Sofia.png',
+                            'assets/imgs/profile_pics/Marcelo.png',
+                          ],
                         ),
                         const SizedBox(width: 16.0),
                         PendingInvoiceCard(
                           amount: "15 €",
                           date: "1 de maio 2025",
-                          peopleCount: 2,
+                          avatarUrls: const [
+                            'assets/imgs/profile_pics/Huang.png',
+                            'assets/imgs/profile_pics/Tiago.jpg',
+                          ],
                         ),
                       ],
                     ),
