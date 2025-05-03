@@ -62,6 +62,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
       }
 
       final String phoneNumber = participant.person.contact;
+
       if (phoneNumber.isEmpty || !_isValidPhoneNumber(phoneNumber)) {
         continue;
       }
@@ -102,52 +103,6 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
       );
     } catch (e) {
       debugPrint('Error processing payment: ${e.toString()}');
-    }
-  }
-
-  Future<void> _processMBWayPayments() async {
-    for (Participant participant in widget.participants) {
-      if (participant.accountType != AccountType.mbway ||
-          participant.person.contact.isEmpty) {
-        continue;
-      }
-
-      if (!participant.person.contact.startsWith('+')) {
-        continue;
-      }
-
-      final double total = widget.receipt.calculateTotal(participant);
-      if (total <= 0) continue;
-
-      final orderId =
-          'ORDER-${DateTime.now().millisecondsSinceEpoch}-${participant.id}';
-
-      try {
-        final MBWayPayment payment = await MbwayApi.requestPayment(
-          phoneNumber: participant.person.contact,
-          amount: total,
-          description: 'Bill from uSettle',
-          orderId: orderId,
-        );
-
-        setState(() {
-          _mbwayPayments[participant.id] = payment;
-        });
-      } catch (e) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to request MB WAY payment: $e'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
     }
   }
 
