@@ -172,7 +172,56 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                         shadowColor: Colors.black26,
                       ),
                       onPressed: () {
-                        // TODO: Change page
+                        print(receipt!.items);
+
+                        final selectedParticipants = _selectedContacts
+                            .map(
+                              (contact) => Participant(
+                                id: 0,
+                                author: false,
+                                person: Profile(
+                                  name: contact.displayName,
+                                  contact: contact.phones.isNotEmpty
+                                      ? contact.phones.first.number
+                                      : '',
+                                  avatarImage: contact.thumbnail,
+                                ),
+                                items: receipt!.items,
+                              ),
+                            )
+                            .toList();
+
+                        selectedParticipants.insert(
+                          0,
+                          Participant(
+                              id: 0,
+                              person: Profile(
+                                  name: "Diogo",
+                                  contact: "+351915612870",
+                                  avatarImage: _findContactThumbnailByNumber(
+                                      "+351915612870")),
+                              items: receipt!.items,
+                              author: true),
+                        );
+
+                        for (int i = 1; i < selectedParticipants.length; i++) {
+                          selectedParticipants[i] = Participant(
+                            id: i,
+                            author: false,
+                            person: selectedParticipants[i].person,
+                            items: selectedParticipants[i].items,
+                          );
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AssignmentPage(
+                              receipt: receipt, //TODO: danger here
+                              participants: selectedParticipants,
+                            ),
+                          ),
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

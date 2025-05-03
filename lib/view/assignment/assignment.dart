@@ -60,8 +60,18 @@ class AssignmentState extends State<AssignmentPage> {
 
     for (final item in widget.receipt.items) {
       assignments[item.id.toString()] = [];
-      for (int i = 0; i < namedItems[item.name]!.length; i++) {
-        assignments[item.id.toString()]!.add(null);
+      for (final participant in widget.participants) {
+        if (participant.items.contains(item)) {
+          assignments[item.id.toString()]!.add(participant.id);
+        }
+      }
+    }
+
+    for (final item in widget.receipt.items) {
+      if (assignments[item.id.toString()]!.isEmpty) {
+        for (int i = 0; i < namedItems[item.name]!.length; i++) {
+          assignments[item.id.toString()]!.add(null);
+        }
       }
     }
 
