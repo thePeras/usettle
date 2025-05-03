@@ -8,7 +8,7 @@
 **uSettle** is a app designed to put an end to the “you pay now, send me my share later” hassle. By simply scanning a receipt, the app identifies all items, lets users assign who ordered what, and helps settle debts quickly—either via MB Way or by tracking balances between friends. With support for fair splits and ongoing accounts, uSettle makes shared expenses simple, transparent, and hassle-free.
 
 <div align="center">
-    <img src="assets/uSettle.gif" height="600" />
+    <img src="assets/output.gif" />
 </div>
 
 ## Technologies
