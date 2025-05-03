@@ -7,9 +7,9 @@ import 'package:dotted_separator/source/separator.dart';
 import 'package:usettle/api/mbway_api.dart';
 import 'package:usettle/models/participant.dart';
 import 'package:usettle/models/receipt.dart';
-import 'package:usettle/view/components/account_mbway_selector.dart';
+import 'package:usettle/view/common/components/account_mbway_selector.dart';
 import 'package:usettle/view/invoice_confirm/participant_card.dart';
-import 'package:usettle/view/utils/utils.dart';
+import 'package:usettle/view/utils.dart';
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage(

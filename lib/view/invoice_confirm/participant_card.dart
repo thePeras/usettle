@@ -2,7 +2,7 @@ import 'package:dotted_separator/source/separator.dart';
 import 'package:flutter/material.dart';
 import 'package:usettle/models/item.dart';
 import 'package:usettle/models/participant.dart';
-import 'package:usettle/view/components/account_mbway_selector.dart';
+import 'package:usettle/view/common/components/account_mbway_selector.dart';
 
 class ParticipantCard extends StatefulWidget {
   final Participant participant;

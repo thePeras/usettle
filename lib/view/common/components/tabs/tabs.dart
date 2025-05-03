@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:usettle/view/common/pages/general.dart';
-import 'package:usettle/view/tabs/tab_list.dart';
-import 'package:usettle/view/tabs/tab_screen.dart';
+import 'package:usettle/view/common/components/tabs/tab_list.dart';
+import 'package:usettle/view/common/components/tabs/tab_screen.dart';
 
-import '../../model/custom_tab.dart';
-import '../../model/transaction.dart';
+import '../../../../models/custom_tab.dart';
+import '../../../../models/transaction.dart';
 
 class TabsPage extends StatefulWidget {
   const TabsPage({super.key});

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../../model/custom_tab.dart';
-import '../../model/transaction.dart';
+import '../../../../models/custom_tab.dart';
+import '../../../../models/transaction.dart';
 
 class TabScreen extends StatefulWidget {
   late CustomTab tab;

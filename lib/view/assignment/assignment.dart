@@ -9,7 +9,7 @@ import 'package:usettle/models/item.dart';
 import 'package:dotted_separator/dotted_separator.dart';
 import 'package:usettle/models/participant.dart';
 import 'package:usettle/models/receipt.dart';
-import 'package:usettle/view/utils/utils.dart';
+import 'package:usettle/view/utils.dart';
 import 'package:usettle/view/common/components/user_avatar.dart';
 import 'package:usettle/view/common/components/animated_count_badge.dart';
 import 'package:flutter/material.dart';

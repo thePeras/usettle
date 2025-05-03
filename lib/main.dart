@@ -12,8 +12,8 @@ import 'package:usettle/view/scan/scanner.dart';
 import 'package:usettle/view/contacts/contacts_selection.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:usettle/view/tabs/tab_screen.dart';
-import 'package:usettle/view/tabs/tabs.dart';
+import 'package:usettle/view/common/components/tabs/tab_screen.dart';
+import 'package:usettle/view/common/components/tabs/tabs.dart';
 
 Future<void> main() async {
   initializeDateFormatting();
