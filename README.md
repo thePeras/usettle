@@ -26,6 +26,24 @@ flutter pub get
 flutter run
 ```
 
+## Sctruture of the code
+
+All the app code lives in `/lib` folder.
+- `api/` - Code related to apis, in this case, MBWay
+- `models/` - All the Dart models used in the app
+- `view/` - All the app pages, where inside, each folder represents a page except `common/` where there is common widgets shared across the app
+
+## Evolution
+
+###  Napkins Wireframes
+<img width="400" src="[https://github.com/user-attachments/assets/179d5197-5e3a-49b7-bc21-7d60fb09b01d](https://github.com/user-attachments/assets/714fa921-0cee-4273-b423-a1b9be6ea1d0)" />
+
+### Figma Mockups
+<img width="400" src="https://github.com/user-attachments/assets/179d5197-5e3a-49b7-bc21-7d60fb09b01d" />
+
+### Prototype Screenshoots
+<>
+
 ## Team
 
 - [Adriano Machado](https://github.com/Adriano-7) 
