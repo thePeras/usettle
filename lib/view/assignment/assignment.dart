@@ -368,17 +368,16 @@ class AssignmentState extends State<AssignmentPage> {
                                   (index) {
                                     final participantId =
                                         uniqueParticipantIds.elementAt(index);
+
+                                    final p = widget.participants
+                                        .where((p) => p.id == participantId)
+                                        .first;
                                     return Positioned(
                                       left: index * 14.0,
-                                      child: CircleAvatar(
+                                      child: UserAvatar(
                                           radius: 11,
-                                          backgroundImage: MemoryImage(widget
-                                              .participants
-                                              .where(
-                                                  (p) => p.id == participantId)
-                                              .first
-                                              .person
-                                              .avatarImage!)),
+                                          name: p.person.name,
+                                          avatarImage: p.person.avatarImage),
                                     );
                                   },
                                 ),

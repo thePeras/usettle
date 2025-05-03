@@ -196,11 +196,11 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                           Participant(
                               id: 0,
                               person: Profile(
-                                  name: "Diogo",
+                                  name: "Eu",
                                   contact: "+351915612870",
                                   avatarImage: _findContactThumbnailByNumber(
                                       "+351915612870")),
-                              items: receipt!.items,
+                              items: receipt.items,
                               author: true),
                         );
 
@@ -273,7 +273,7 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                           Participant(
                               id: 0,
                               person: Profile(
-                                  name: "Diogo",
+                                  name: "Eu",
                                   contact: "+351915612870",
                                   avatarImage: _findContactThumbnailByNumber(
                                       "+351915612870")),
