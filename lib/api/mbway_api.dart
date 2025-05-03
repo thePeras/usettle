@@ -19,7 +19,7 @@ class MbwayApi {
       'mbWayKey': mbwayKey,
       'orderId': orderId,
       'amount': amount.toStringAsFixed(2),
-      'mobileNumber': phoneNumber,
+      'mobileNumber': '351#$phoneNumber',
       'description': 'Payment for Order $orderId',
     };
 
@@ -39,7 +39,8 @@ class MbwayApi {
   }
 
   Future<Map<String, dynamic>> checkPaymentStatus() async {
-    final Uri uri = Uri.parse("https://api.ifthenpay.com/spg/payment/mbway/status?mbWayKey=$mbwayKey&requestId=$requestId");
+    final Uri uri = Uri.parse(
+        "https://api.ifthenpay.com/spg/payment/mbway/status?mbWayKey=$mbwayKey&requestId=$requestId");
 
     final response = await http.get(
       uri,

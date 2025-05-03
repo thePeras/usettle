@@ -2,13 +2,17 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:animations/animations.dart';
-import 'package:intl/intl.dart';
+
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:usettle/models/item.dart';
 import 'package:dotted_separator/dotted_separator.dart';
 import 'package:usettle/models/participant.dart';
 import 'package:usettle/models/receipt.dart';
+import 'package:usettle/view/utils/utils.dart';
+import 'package:usettle/view/common/components/user_avatar.dart';
+import 'package:usettle/view/common/components/animated_count_badge.dart';
+import 'package:flutter/material.dart';
 
 class AssignmentPage extends StatefulWidget {
   const AssignmentPage({
@@ -35,10 +39,18 @@ class AssignmentState extends State<AssignmentPage> {
 
   Set<String> expandedItems = {};
 
+  // Added map to track participants with updated items
+  Map<int, List<Item>> updatedParticipantItems = {};
+
   @override
   void initState() {
     super.initState();
     _currentIndex = 0;
+
+    // Initialize the updated participant items map
+    for (final participant in widget.participants) {
+      updatedParticipantItems[participant.id] = [];
+    }
 
     for (final item in widget.receipt.items) {
       if (!namedItems.containsKey(item.name)) {
@@ -103,10 +115,13 @@ class AssignmentState extends State<AssignmentPage> {
                           SizedBox(
                             width: 8,
                           ),
-                          Text(
-                            formatDate(widget.receipt.date),
-                            style: TextStyle(fontWeight: FontWeight.w300),
-                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 6),
+                            child: Text(
+                              Utils.formatDate(widget.receipt.date),
+                              style: TextStyle(fontWeight: FontWeight.w300),
+                            ),
+                          )
                         ]),
                   ],
                 ),
@@ -127,7 +142,16 @@ class AssignmentState extends State<AssignmentPage> {
           ? FloatingActionButton(
               onPressed: _allItemsHaveAssignments()
                   ? () {
-                      Navigator.pushNamed(context, '/confirmation');
+                      final updatedParticipants = getUpdatedParticipants();
+
+                      Navigator.pushNamed(
+                        context,
+                        '/confirmation',
+                        arguments: {
+                          'participants': updatedParticipants,
+                          'receipt': widget.receipt,
+                        },
+                      );
                     }
                   : null,
               backgroundColor: _allItemsHaveAssignments()
@@ -146,7 +170,9 @@ class AssignmentState extends State<AssignmentPage> {
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 5),
-            child: Text("Comece por selecionar uma pessoa..."),
+            child: Text(!assigning
+                ? "Seleciona uma pessoa"
+                : "Clica para descelecionar"),
           ),
           DashedLine(
             color: Colors.grey,
@@ -175,17 +201,21 @@ class AssignmentState extends State<AssignmentPage> {
                 child: Center(
               child: Positioned(
                 bottom: 10,
-                child: TextButton(
-                  style: ButtonStyle(
-                    padding: WidgetStatePropertyAll(EdgeInsets.all(13)),
-                    backgroundColor: WidgetStatePropertyAll(Colors.green[800]),
-                  ),
+                child: ElevatedButton(
                   onPressed: () => setState(() {
                     assigning = false;
                   }),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green[800],
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
                   child: const Text(
-                    "Confirmar",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    'Confirmar',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -285,7 +315,9 @@ class AssignmentState extends State<AssignmentPage> {
 
                                     if (peopleAssignedToItem.length == 1 &&
                                         peopleAssignedToItem[0] == null) {
-                                      peopleAssignedToItem.clear();
+                                      peopleAssignedToItem.removeWhere(
+                                          (assignedPerson) =>
+                                              assignedPerson == null);
                                     }
 
                                     if (allItemsAssignedToActiveParticipant) {
@@ -331,18 +363,14 @@ class AssignmentState extends State<AssignmentPage> {
                                     return Positioned(
                                       left: index * 14.0,
                                       child: CircleAvatar(
-                                        radius: 11,
-                                        backgroundColor: Colors.green[800],
-                                        child: Text(
-                                          widget.participants[participantId]
-                                              .person.name[0]
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
+                                          radius: 11,
+                                          backgroundImage: MemoryImage(widget
+                                              .participants
+                                              .where(
+                                                  (p) => p.id == participantId)
+                                              .first
+                                              .person
+                                              .avatarImage!)),
                                     );
                                   },
                                 ),
@@ -389,35 +417,51 @@ class AssignmentState extends State<AssignmentPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'x$totalQuantity',
-                          style: TextStyle(
-                            color: (_activeParticipant != null &&
-                                    assigning &&
-                                    !isActiveParticipantAssigned)
-                                ? Colors.grey[400]
-                                : Colors.black,
-                          ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'x$totalQuantity',
+                              style: TextStyle(
+                                color: (_activeParticipant != null &&
+                                        assigning &&
+                                        !isActiveParticipantAssigned)
+                                    ? Colors.grey[400]
+                                    : Colors.black,
+                              ),
+                            ),
+                            Text(
+                              "${items.fold(0.0, (sum, item) => sum + item.price).toStringAsFixed(2)}€",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                color: (_activeParticipant != null &&
+                                        assigning &&
+                                        !isActiveParticipantAssigned)
+                                    ? Colors.grey[400]
+                                    : Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "${items.fold(0.0, (sum, item) => sum + item.price).toStringAsFixed(2)}€",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: (_activeParticipant != null &&
-                                    assigning &&
-                                    !isActiveParticipantAssigned)
-                                ? Colors.grey[400]
-                                : Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 8),
+                      PhosphorIcon(
+                        isExpanded
+                            ? PhosphorIcons.caretUp(PhosphorIconsStyle.light)
+                            : PhosphorIcons.caretDown(PhosphorIconsStyle.light),
+                        color: (_activeParticipant != null &&
+                                assigning &&
+                                !isActiveParticipantAssigned)
+                            ? Colors.grey[400]
+                            : Colors.grey[600],
+                        size: 16,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -746,17 +790,14 @@ class AssignmentState extends State<AssignmentPage> {
 
         return [
           ...List.generate(visibleAvatars, (index) {
+            final participant =
+                widget.participants[assignedParticipants[index]];
             return Positioned(
               left: index * 14.0,
-              child: CircleAvatar(
+              child: UserAvatar(
+                name: participant.person.name,
+                avatarImage: participant.person.avatarImage,
                 radius: 11,
-                backgroundColor: Colors.green[800],
-                child: Text(
-                  widget
-                      .participants[assignedParticipants[index]].person.name[0]
-                      .toUpperCase(),
-                  style: TextStyle(fontSize: 10, color: Colors.white),
-                ),
               ),
             );
           }),
@@ -805,16 +846,13 @@ class AssignmentState extends State<AssignmentPage> {
           );
         }),
       ...List.generate(avatarsToShow, (index) {
+        final participant = widget.participants[assignedParticipants[index]];
         return Positioned(
           left: index * 14.0,
-          child: CircleAvatar(
+          child: UserAvatar(
+            name: participant.person.name,
+            avatarImage: participant.person.avatarImage,
             radius: 11,
-            backgroundColor: Colors.green[800],
-            child: Text(
-              widget.participants[assignedParticipants[index]].person.name[0]
-                  .toUpperCase(),
-              style: TextStyle(fontSize: 10, color: Colors.white),
-            ),
           ),
         );
       }),
@@ -843,17 +881,13 @@ class AssignmentState extends State<AssignmentPage> {
     final participant =
         widget.participants.where((p) => p.id == _activeParticipant).first;
 
-    final items = assignments.entries.where(
-      (entry) => entry.value.contains(participant.id),
-    );
+    // Count items for badge display
+    final itemsCount = assignments.entries
+        .where((entry) => entry.value.contains(participant.id))
+        .length;
 
-    final totalAmount = items.fold(0.0, (sum, entry) {
-      final id = entry.key;
-      final item = widget.receipt.items.firstWhere(
-        (i) => i.id.toString() == id,
-      );
-      return sum + item.price;
-    });
+    // Calculate the total with correct cost splitting
+    final totalAmount = calculateParticipantTotal(participant.id);
 
     return GestureDetector(
         onTap: () {
@@ -872,24 +906,19 @@ class AssignmentState extends State<AssignmentPage> {
             children: [
               Stack(
                 children: [
-                  CircleAvatar(
+                  UserAvatar(
+                    name: participant.person.name,
+                    avatarImage: participant.person.avatarImage,
                     radius: 40,
-                    backgroundColor: Colors.grey,
-                    child: Text(
-                      participant.person.name[0].toUpperCase(),
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                    ),
                   ),
                   Positioned(
                     right: 0,
                     bottom: 0,
-                    child: CircleAvatar(
+                    child: AnimatedCountBadge(
+                      count: itemsCount,
                       radius: 10,
                       backgroundColor: Colors.white,
-                      child: Text(
-                        items.length.toString(),
-                        style: TextStyle(fontSize: 10, color: Colors.black),
-                      ),
+                      textColor: Colors.black,
                     ),
                   ),
                 ],
@@ -966,17 +995,13 @@ class AssignmentState extends State<AssignmentPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: participants.map((participant) {
-        final items = assignments.entries
+        // Count the assigned items for badge indicator
+        final itemsCount = assignments.entries
             .where((entry) => entry.value.contains(participant.id))
-            .toList();
+            .length;
 
-        final totalAmount = items.fold(0.0, (sum, entry) {
-          final id = entry.key;
-          final item = widget.receipt.items.firstWhere(
-            (i) => i.id.toString() == id,
-          );
-          return sum + item.price;
-        });
+        // Calculate the total with correct cost splitting
+        final totalAmount = calculateParticipantTotal(participant.id);
 
         return Container(
           width: 90,
@@ -992,25 +1017,20 @@ class AssignmentState extends State<AssignmentPage> {
                       assigning = true;
                       _activeParticipant = participant.id;
                     }),
-                    child: CircleAvatar(
+                    child: UserAvatar(
+                      name: participant.person.name,
+                      avatarImage: participant.person.avatarImage,
                       radius: 35,
-                      backgroundColor: Colors.grey,
-                      child: Text(
-                        participant.person.name[0].toUpperCase(),
-                        style: TextStyle(fontSize: 28, color: Colors.white),
-                      ),
                     ),
                   ),
                   Positioned(
                     right: 0,
                     bottom: 0,
-                    child: CircleAvatar(
+                    child: AnimatedCountBadge(
+                      count: itemsCount,
                       radius: 10,
                       backgroundColor: Colors.white,
-                      child: Text(
-                        items.length.toString(),
-                        style: TextStyle(fontSize: 10, color: Colors.black),
-                      ),
+                      textColor: Colors.black,
                     ),
                   ),
                 ],
@@ -1040,10 +1060,6 @@ class AssignmentState extends State<AssignmentPage> {
     });
   }
 
-  String formatDate(DateTime date) {
-    return DateFormat("dd/MM/yyyy").format(date);
-  }
-
   List<List<Participant>> _chunkParticipants(
     List<Participant> participants,
     int chunkSize,
@@ -1060,5 +1076,47 @@ class AssignmentState extends State<AssignmentPage> {
       );
     }
     return chunks;
+  }
+
+  double calculateParticipantTotal(int participantId) {
+    double total = 0.0;
+
+    for (final item in widget.receipt.items) {
+      final itemId = item.id.toString();
+      final peopleAssigned = assignments[itemId]!.whereType<int>().toList();
+
+      if (peopleAssigned.contains(participantId)) {
+        final splitCost = item.price / peopleAssigned.length;
+        total += splitCost;
+
+        final adjustedItem = Item(
+          id: item.id,
+          name: item.name,
+          price: splitCost,
+        );
+
+        updatedParticipantItems[participantId]!.add(adjustedItem);
+      }
+    }
+
+    return total;
+  }
+
+  List<Participant> getUpdatedParticipants() {
+    for (final participantId in updatedParticipantItems.keys) {
+      updatedParticipantItems[participantId]!.clear();
+    }
+
+    for (final participant in widget.participants) {
+      calculateParticipantTotal(participant.id);
+    }
+
+    return widget.participants
+        .map((participant) => Participant(
+              id: participant.id,
+              person: participant.person,
+              items: List.from(updatedParticipantItems[participant.id]!),
+            ))
+        .toList();
   }
 }

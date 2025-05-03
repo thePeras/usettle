@@ -36,20 +36,19 @@ class CustomBottomNavbar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             padding: EdgeInsets.all(12),
-            child:
-                BottomNavbarItem(
-                  icon: PhosphorIcons.scan(
-                    currentRoute == '/scan'
-                        ? PhosphorIconsStyle.fill
-                        : PhosphorIconsStyle.regular,
-                  ),
-                  color: Colors.white,
-                  callback: () {
-                    if (currentRoute != '/scan') {
-                      Navigator.pushNamed(context, '/scan');
-                    }
-                  },
-                ).toIconButton(),
+            child: BottomNavbarItem(
+              icon: PhosphorIcons.scan(
+                currentRoute == '/scan'
+                    ? PhosphorIconsStyle.fill
+                    : PhosphorIconsStyle.regular,
+              ),
+              color: Colors.white,
+              callback: () {
+                if (currentRoute != '/scan') {
+                  Navigator.pushNamed(context, '/scan');
+                }
+              },
+            ).toIconButton(),
           ),
           BottomNavbarItem(
             icon: PhosphorIcons.usersThree(

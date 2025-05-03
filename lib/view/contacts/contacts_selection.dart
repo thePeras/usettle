@@ -32,7 +32,11 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
   }
 
   Future<void> _fetchContacts() async {
-    if (await Permission.contacts.request().isGranted) {
+    // First check the permission status
+    // final status = await Permission.contacts.status;
+
+    if (await FlutterContacts.requestPermission()) {
+      // Permission already granted
       final contacts = await FlutterContacts.getContacts(
         withProperties: true,
         withThumbnail: true,
@@ -41,19 +45,53 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
         _allContacts = contacts;
         _filteredContacts = contacts;
       });
+    } else {
+      // Request permission explicitly
+      final result = await Permission.contacts.request();
+      if (result.isGranted) {
+        final contacts = await FlutterContacts.getContacts(
+          withProperties: true,
+          withThumbnail: true,
+        );
+        setState(() {
+          _allContacts = contacts;
+          _filteredContacts = contacts;
+        });
+      } else {
+        // Show dialog to inform user that permission is required
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Contacts Permission Required'),
+              content: Text(
+                  'This app needs access to your contacts to select people for bill splitting.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => openAppSettings(),
+                  child: Text('Open Settings'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
     }
   }
 
   void _filterContacts(String query) {
     setState(() {
-      _filteredContacts =
-          _allContacts
-              .where(
-                (contact) => contact.displayName.toLowerCase().contains(
+      _filteredContacts = _allContacts
+          .where(
+            (contact) => contact.displayName.toLowerCase().contains(
                   query.toLowerCase(),
                 ),
-              )
-              .toList();
+          )
+          .toList();
     });
   }
 
@@ -111,10 +149,9 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                   child: _buildSearchBar(),
                 ),
                 Expanded(
-                  child:
-                      _allContacts.isEmpty
-                          ? _buildShimmerLoading()
-                          : _buildContactList(),
+                  child: _allContacts.isEmpty
+                      ? _buildShimmerLoading()
+                      : _buildContactList(),
                 ),
               ],
             ),
@@ -167,28 +204,28 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                         shadowColor: Colors.black26,
                       ),
                       onPressed: () {
-                        final selectedParticipants =
-                            _selectedContacts
-                                .map(
-                                  (contact) => Participant(
-                                    id: 0, // TODO: Get id
-                                    person: Profile(
-                                      name: contact.displayName,
-                                      contact:
-                                          contact.phones.isNotEmpty
-                                              ? contact.phones.first.number
-                                              : '',
-                                      avatarImage: contact.thumbnail,
-                                    ),
-                                    items: [],
-                                  ),
-                                )
-                                .toList();
+                        final selectedParticipants = _selectedContacts
+                            .map(
+                              (contact) => Participant(
+                                id: 0, // TODO: Get id
+                                author: false,
+                                person: Profile(
+                                  name: contact.displayName,
+                                  contact: contact.phones.isNotEmpty
+                                      ? contact.phones.first.number
+                                      : '',
+                                  avatarImage: contact.thumbnail,
+                                ),
+                                items: [],
+                              ),
+                            )
+                            .toList();
 
                         // Assigment unique ids to participants
                         for (int i = 0; i < selectedParticipants.length; i++) {
                           selectedParticipants[i] = Participant(
                             id: i,
+                            author: false,
                             person: selectedParticipants[i].person,
                             items: selectedParticipants[i].items,
                           );
@@ -197,11 +234,10 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder:
-                                (context) => AssignmentPage(
-                                  receipt: receipt!, //TODO: danger here
-                                  participants: selectedParticipants,
-                                ),
+                            builder: (context) => AssignmentPage(
+                              receipt: receipt!, //TODO: danger here
+                              participants: selectedParticipants,
+                            ),
                           ),
                         );
                       },
@@ -247,11 +283,10 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
   }
 
   Widget _buildSelectedContactsRow() {
-    // TODO: Remove horizontal margin
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: Container(
-        alignment: Alignment.centerLeft, // This ensures left alignment
+        alignment: Alignment.centerLeft,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Align(
@@ -268,25 +303,23 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                       children: [
                         CircleAvatar(
                           radius: 35,
-                          backgroundImage:
-                              contact.thumbnail != null &&
-                                      contact.thumbnail!.isNotEmpty
-                                  ? MemoryImage(contact.thumbnail!)
-                                  : null,
+                          backgroundImage: contact.thumbnail != null &&
+                                  contact.thumbnail!.isNotEmpty
+                              ? MemoryImage(contact.thumbnail!)
+                              : null,
                           backgroundColor: _greyColor,
-                          child:
-                              contact.thumbnail == null ||
-                                      contact.thumbnail!.isEmpty
-                                  ? Text(
-                                    contact.displayName.isNotEmpty
-                                        ? contact.displayName[0]
-                                        : '?',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
-                                  )
-                                  : null,
+                          child: contact.thumbnail == null ||
+                                  contact.thumbnail!.isEmpty
+                              ? Text(
+                                  contact.displayName.isNotEmpty
+                                      ? contact.displayName[0]
+                                      : '?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                )
+                              : null,
                         ),
                         Positioned(
                           right: -10,
@@ -326,35 +359,33 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
         final contact = _filteredContacts[index];
         final isSelected = _selectedContacts.contains(contact);
         return ListTile(
-          leading:
-              contact.thumbnail != null && contact.thumbnail!.isNotEmpty
-                  ? CircleAvatar(
-                    backgroundImage: MemoryImage(contact.thumbnail!),
-                  )
-                  : CircleAvatar(
-                    backgroundColor: _greyColor,
-                    child: Text(
-                      contact.displayName.isNotEmpty
-                          ? contact.displayName[0]
-                          : '?',
-                      style: TextStyle(color: Colors.white),
-                    ),
+          leading: contact.thumbnail != null && contact.thumbnail!.isNotEmpty
+              ? CircleAvatar(
+                  backgroundImage: MemoryImage(contact.thumbnail!),
+                )
+              : CircleAvatar(
+                  backgroundColor: _greyColor,
+                  child: Text(
+                    contact.displayName.isNotEmpty
+                        ? contact.displayName[0]
+                        : '?',
+                    style: TextStyle(color: Colors.white),
                   ),
+                ),
           title: Text(contact.displayName),
-          trailing:
-              isSelected
-                  ? PhosphorIcon(
-                    PhosphorIconsFill.checkCircle,
-                    color: _greenColor,
-                    size: 30.0,
-                    semanticLabel: 'Selected',
-                  )
-                  : PhosphorIcon(
-                    PhosphorIconsRegular.circle,
-                    color: _greyColor,
-                    size: 30.0,
-                    semanticLabel: 'Not selected',
-                  ),
+          trailing: isSelected
+              ? PhosphorIcon(
+                  PhosphorIconsFill.checkCircle,
+                  color: _greenColor,
+                  size: 30.0,
+                  semanticLabel: 'Selected',
+                )
+              : PhosphorIcon(
+                  PhosphorIconsRegular.circle,
+                  color: _greyColor,
+                  size: 30.0,
+                  semanticLabel: 'Not selected',
+                ),
           onTap: () => _toggleSelection(contact),
         );
       },
@@ -372,17 +403,16 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
           color: _greyColor,
           size: 20.0,
         ),
-        suffixIcon:
-            _searchController.text.isEmpty
-                ? null
-                : IconButton(
-                  icon: PhosphorIcon(
-                    PhosphorIconsRegular.x,
-                    color: _greyColor,
-                    size: 20.0,
-                  ),
-                  onPressed: _clearSearch,
+        suffixIcon: _searchController.text.isEmpty
+            ? null
+            : IconButton(
+                icon: PhosphorIcon(
+                  PhosphorIconsRegular.x,
+                  color: _greyColor,
+                  size: 20.0,
                 ),
+                onPressed: _clearSearch,
+              ),
         filled: true,
         fillColor: Colors.grey[200],
         contentPadding: EdgeInsets.symmetric(vertical: 14.0),

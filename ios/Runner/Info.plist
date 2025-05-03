@@ -50,6 +50,6 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>your usage description here</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app needs access to your contacts.</string>
+	<string>uSettle needs access to your contacts to help you easily split bills with your friends and family.</string>
 </dict>
 </plist>
