@@ -1,16 +1,34 @@
-# uSettle
+<div align="center">
+    <img src="assets/imgs/icon.png" height="100" />
+    <h1>uSettle</h1>
+</div>
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+**uSettle** is a app designed to put an end to the “you pay now, send me my share later” hassle. By simply scanning a receipt, the app identifies all items, lets users assign who ordered what, and helps settle debts quickly—either via MB Way or by tracking balances between friends. With support for fair splits and ongoing accounts, uSettle makes shared expenses simple, transparent, and hassle-free.
 
-This project is a starting point for a Flutter application.
+<div align="center">
+    <img src="assets/uSettle.gif" height="600" />
+</div>
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Our project started with designing prototypes in **Figma**, followed by an implementation using the **Flutter** framework. For the receipt recognition functionality, we integrated **Google Gemini** to process and extract data from images.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## How to run the project
+
+To run this project, ensure you have Flutter installed. If not, follow the official installation guide [here](https://flutter.dev/docs/get-started/install).
+
+Once Flutter is installed, clone the repository and run the following commands in the root directory:
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Team
+
+- [Adriano Machado](https://github.com/Adriano-7) 
+- [Diogo Goiana](https://github.com/DGoiana)
+- [João Torre Pereira](https://github.com/thePeras) 
+- [Rubem Neto](https://github.com/rubuy-74)
