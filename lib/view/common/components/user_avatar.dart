@@ -23,7 +23,6 @@ class UserAvatar extends StatelessWidget {
         backgroundImage: MemoryImage(avatarImage!),
       );
     } else {
-      // Get the initials from the name (first letter of each word, max 2)
       final initials = name
           .split(' ')
           .where((part) => part.isNotEmpty)

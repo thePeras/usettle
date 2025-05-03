@@ -134,7 +134,7 @@ class AssignmentState extends State<AssignmentPage> {
                   ],
                 ),
                 Text(
-                  "${widget.receipt.total}€",
+                  "${widget.receipt.total.toStringAsFixed(2)}€",
                   style: TextStyle(
                     color: Colors.green[800],
                     fontWeight: FontWeight.bold,
@@ -420,6 +420,8 @@ class AssignmentState extends State<AssignmentPage> {
                                 ? Colors.grey[400]
                                 : Colors.black,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                     ],
@@ -578,6 +580,8 @@ class AssignmentState extends State<AssignmentPage> {
                                                 ? Colors.grey[400]
                                                 : Colors.black,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
                                       ),
                                     ],
@@ -723,6 +727,8 @@ class AssignmentState extends State<AssignmentPage> {
                                 ? Colors.grey[400]
                                 : Colors.black,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                     ],
@@ -935,7 +941,9 @@ class AssignmentState extends State<AssignmentPage> {
                 children: [
                   Text(participant.person.name,
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600)),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1),
                   Text(
                     "${totalAmount.toStringAsFixed(2)}€",
                     style: TextStyle(fontSize: 24),
@@ -1043,10 +1051,12 @@ class AssignmentState extends State<AssignmentPage> {
                 participant.person.name,
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
                 overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               Text(
                 "${totalAmount.toStringAsFixed(2)}€",
                 style: TextStyle(fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
