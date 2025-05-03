@@ -12,15 +12,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
     return Scaffold(
       extendBody: false,
-      appBar:
-          title != null
-              ? AppBar(
-                title: Text(title),
-                centerTitle: true,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-              )
-              : null,
+      appBar: title != null
+          ? AppBar(
+              title: Text(title),
+              centerTitle: true,
+              elevation: 0,
+              automaticallyImplyLeading: false,
+            )
+          : null,
       body: getBody(context),
       bottomNavigationBar: const SafeArea(child: CustomBottomNavbar()),
     );

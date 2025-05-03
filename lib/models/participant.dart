@@ -6,7 +6,7 @@ class Participant {
     required this.id,
     required this.person,
     required this.items,
-    required this.author,
+    this.author = false,
   });
 
   final int id;

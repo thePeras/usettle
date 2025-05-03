@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,11 +34,9 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
   }
 
   Future<void> _fetchContacts() async {
-    // First check the permission status
     // final status = await Permission.contacts.status;
 
     if (await FlutterContacts.requestPermission()) {
-      // Permission already granted
       final contacts = await FlutterContacts.getContacts(
         withProperties: true,
         withThumbnail: true,
@@ -46,7 +46,6 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
         _filteredContacts = contacts;
       });
     } else {
-      // Request permission explicitly
       final result = await Permission.contacts.request();
       if (result.isGranted) {
         final contacts = await FlutterContacts.getContacts(
@@ -58,7 +57,6 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
           _filteredContacts = contacts;
         });
       } else {
-        // Show dialog to inform user that permission is required
         if (mounted) {
           showDialog(
             context: context,
@@ -207,7 +205,7 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                         final selectedParticipants = _selectedContacts
                             .map(
                               (contact) => Participant(
-                                id: 0, // TODO: Get id
+                                id: 0,
                                 author: false,
                                 person: Profile(
                                   name: contact.displayName,
@@ -221,8 +219,20 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
                             )
                             .toList();
 
-                        // Assigment unique ids to participants
-                        for (int i = 0; i < selectedParticipants.length; i++) {
+                        selectedParticipants.insert(
+                          0,
+                          Participant(
+                              id: 0,
+                              person: Profile(
+                                  name: "Diogo",
+                                  contact: "+351915612870",
+                                  avatarImage: _findContactThumbnailByNumber(
+                                      "+351915612870")),
+                              items: [],
+                              author: true),
+                        );
+
+                        for (int i = 1; i < selectedParticipants.length; i++) {
                           selectedParticipants[i] = Participant(
                             id: i,
                             author: false,
@@ -263,6 +273,21 @@ class ContactsSelectionPageState extends State<ContactsSelectionPage> {
         ),
       ),
     );
+  }
+
+  Uint8List? _findContactThumbnailByNumber(String phoneNumber) {
+    final normalizedTarget = phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
+
+    for (final contact in _allContacts) {
+      for (final phone in contact.phones) {
+        final normalizedPhone = phone.number.replaceAll(RegExp(r'[^\d+]'), '');
+        if (normalizedPhone.contains(normalizedTarget) ||
+            normalizedTarget.contains(normalizedPhone)) {
+          return contact.thumbnail;
+        }
+      }
+    }
+    return null;
   }
 
   Widget _buildShimmerLoading() {

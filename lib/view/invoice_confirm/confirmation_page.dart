@@ -57,7 +57,8 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
     List<Future> mbwayPayments = [];
 
     for (var participant in filteredParticipants) {
-      if (_participantPaymentMethods[participant.id] != AccountType.mbway) {
+      if (_participantPaymentMethods[participant.id] != AccountType.mbway ||
+          participant.author) {
         continue;
       }
 
@@ -261,7 +262,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 12.0),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF008069).withOpacity(0.1),
+                          color: const Color(0xFF008069).withValues(alpha: .1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(

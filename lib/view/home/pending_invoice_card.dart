@@ -31,7 +31,6 @@ class PendingInvoiceCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Location with icon
             Row(
               children: [
                 PhosphorIcon(
@@ -54,18 +53,13 @@ class PendingInvoiceCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12.0),
-
-            // Amount
             Text(
               amount,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
-
             const SizedBox(height: 6.0),
-
-            // Date
             Row(
               children: [
                 PhosphorIcon(
@@ -81,10 +75,7 @@ class PendingInvoiceCard extends StatelessWidget {
                     )),
               ],
             ),
-
             const SizedBox(height: 16.0),
-
-            // Status indicator
             Row(
               children: [
                 Container(
@@ -106,10 +97,7 @@ class PendingInvoiceCard extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 12.0),
-
-            // Participants
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,7 +139,6 @@ class PendingInvoiceCard extends StatelessWidget {
       );
     }
 
-    // Calculate the width based on avatars with overlap
     double stackWidth = avatarUrls.isEmpty
         ? 0
         : (avatarUrls.length * (2 * avatarRadius - overlap)) + overlap;

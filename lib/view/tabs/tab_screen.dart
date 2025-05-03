@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import '../../model/custom_tab.dart';
 import '../../model/transaction.dart';
 
-
-
 class TabScreen extends StatefulWidget {
   late CustomTab tab;
 
@@ -156,15 +154,10 @@ class TabScreenState extends State<TabScreen> {
             const SizedBox(height: 30),
             Expanded(
               child: ListView.separated(
-                itemCount:
-                    widget
-                        .tab
-                        .transactions
-                        .length, // Based on the number of items in the image
+                itemCount: widget.tab.transactions.length,
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   return buildRow(widget.tab.transactions.elementAt(index));
-                  // You'll likely want to replace this with your actual transaction data
                 },
               ),
             ),

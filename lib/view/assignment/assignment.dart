@@ -39,7 +39,6 @@ class AssignmentState extends State<AssignmentPage> {
 
   Set<String> expandedItems = {};
 
-  // Added map to track participants with updated items
   Map<int, List<Item>> updatedParticipantItems = {};
 
   @override
@@ -47,7 +46,6 @@ class AssignmentState extends State<AssignmentPage> {
     super.initState();
     _currentIndex = 0;
 
-    // Initialize the updated participant items map
     for (final participant in widget.participants) {
       updatedParticipantItems[participant.id] = [];
     }
@@ -198,9 +196,9 @@ class AssignmentState extends State<AssignmentPage> {
           Expanded(child: _buildItemsList()),
           if (assigning)
             SafeArea(
-                child: Center(
-              child: Positioned(
-                bottom: 10,
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(bottom: 10.0),
                 child: ElevatedButton(
                   onPressed: () => setState(() {
                     assigning = false;
@@ -219,7 +217,7 @@ class AssignmentState extends State<AssignmentPage> {
                   ),
                 ),
               ),
-            )),
+            ),
         ],
       ),
     );
@@ -881,12 +879,10 @@ class AssignmentState extends State<AssignmentPage> {
     final participant =
         widget.participants.where((p) => p.id == _activeParticipant).first;
 
-    // Count items for badge display
     final itemsCount = assignments.entries
         .where((entry) => entry.value.contains(participant.id))
         .length;
 
-    // Calculate the total with correct cost splitting
     final totalAmount = calculateParticipantTotal(participant.id);
 
     return GestureDetector(
@@ -995,12 +991,10 @@ class AssignmentState extends State<AssignmentPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: participants.map((participant) {
-        // Count the assigned items for badge indicator
         final itemsCount = assignments.entries
             .where((entry) => entry.value.contains(participant.id))
             .length;
 
-        // Calculate the total with correct cost splitting
         final totalAmount = calculateParticipantTotal(participant.id);
 
         return Container(
@@ -1113,6 +1107,7 @@ class AssignmentState extends State<AssignmentPage> {
 
     return widget.participants
         .map((participant) => Participant(
+              author: participant.author,
               id: participant.id,
               person: participant.person,
               items: List.from(updatedParticipantItems[participant.id]!),

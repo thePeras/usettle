@@ -14,7 +14,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends GeneralPageViewState<HomePage> {
   static const Color _greenColor = Color(0xFF2A6E55);
-  static const Color _greyColor = Color(0xFF696969);
 
   @override
   String? getTitle() => null;
@@ -49,19 +48,14 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                             color: Colors.transparent,
                             child: InkWell(
                               customBorder: const CircleBorder(),
-                              onTap: () {
-                                // Profile action
-                              },
+                              onTap: () {},
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 10.0),
-
-                  // Pending invoices header
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
@@ -96,8 +90,6 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-
-                  // Pending invoices horizontal list
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.only(left: 20.0),
@@ -129,8 +121,6 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                 ],
               ),
             ),
-
-            // Finance summary section
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -154,8 +144,6 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                     ],
                   ),
                   const SizedBox(height: 20.0),
-
-                  // Balance cards with gradient backgrounds
                   Row(
                     children: [
                       Expanded(
@@ -180,10 +168,7 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20.0),
-
-                  // Action cards
                   Row(
                     children: [
                       Expanded(
@@ -221,10 +206,7 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20.0),
-
-                  // Recent activity section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -235,9 +217,7 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                             ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          // View all activity
-                        },
+                        onPressed: () {},
                         child: Text(
                           "Ver tudo",
                           style: TextStyle(
@@ -248,8 +228,6 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                       ),
                     ],
                   ),
-
-                  // Activity items
                   _buildActivityItem(
                     "Sofia pagou 12,50€",
                     "Há 2 dias",
@@ -268,8 +246,7 @@ class _HomePageState extends GeneralPageViewState<HomePage> {
                     'assets/imgs/profile_pics/Tiago.jpg',
                     Colors.purple.shade100,
                   ),
-
-                  const SizedBox(height: 50.0), // Bottom padding
+                  const SizedBox(height: 50.0),
                 ],
               ),
             ),

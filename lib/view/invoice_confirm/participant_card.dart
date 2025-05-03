@@ -89,9 +89,7 @@ class _ParticipantCardState extends State<ParticipantCard> {
                   ),
                   Row(
                     children: [
-                      // Don't show account type toggle for the user (author)
-                      if (!widget.participant.author)
-                        _buildAccountTypeToggle(),
+                      if (!widget.participant.author) _buildAccountTypeToggle(),
                       const SizedBox(width: 8),
                       Icon(
                         _isExpanded
